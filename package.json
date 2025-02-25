@@ -1,0 +1,19 @@
+{
+  "name": "ph_runner",
+  "private": true,
+  "version": "0.0.0",
+  "type": "module",
+  "main": "index.html",
+  "scripts": {
+    "dev": "vite --config config.dev.mjs",
+    "build": "vite build --config config.prod.mjs"
+  },
+  "devDependencies": {
+    "terser": "^5.31.1",
+    "vite": "^5.2.0",
+    "vite-plugin-static-copy": "^1.0.6"
+  },
+  "dependencies": {
+    "phaser": "^3.80.1"
+  }
+}
