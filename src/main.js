@@ -7,7 +7,12 @@ const game = new Phaser.Game({
   width: 640,
   height: 480,
   parent: "container",
-  backgroundColor: "0x000",
+  backgroundColor: 0x696969,
   powerPreference:"high-performance",
   scene: [new BootScene(undefined,"Main"), Main]
 });
+
+
+
+// https://freesound.org/people/kyles/sounds/452573/
+// https://freesound.org/people/clubmydia+/sounds/584168/
