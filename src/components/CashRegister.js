@@ -9,7 +9,7 @@ export default class CashRegister {
         this.total = 0;
         this.pressed = {1:null,10:null,100:null};
 
-        this.body = this.scene.add.image(this.x-6, this.y-37, "atlasik", "register_body").setOrigin(0);
+        this.body = this.scene.add.image(this.x-6, this.y-37, "atlasik", "register_body").setOrigin(0).setInteractive();
 
         this.suplik = this.scene.add.image(this.x, this.y+this.height+2, "atlasik", "register_suplik").setOrigin(0,1);
 
@@ -43,7 +43,7 @@ export default class CashRegister {
                 }
                 this.scene.add.ellipse(x, y, (cell-2)*2, (cell-6)*2, 0x445a7e,0.4).setBlendMode('MULTIPLY')
                 let button = this.scene.add.ellipse(x, y, (cell-2)*2, (cell-6)*2, fillColor).setStrokeStyle(2,strokeColor,0.7);
-                button.setInteractive();
+                button.setInteractive({cursor:"pointer"});
 
                 let text = this.scene.add.text(x,y, `${value}`, {
                     fontSize: value >= 100?'12px':'15px',
@@ -94,13 +94,13 @@ export default class CashRegister {
             if (button) {
                 button.button.setScale(1).setY(button.button.y-5);
                 button.text.setScale(1).setY(button.text.y-5);
-                this.scene.sound.playAudioSprite('audios','button_up',{delay:i*0.01})
             }
         });
+        this.scene.sound.playAudioSprite('audios','button_up');
         this.pressed = { 1: null, 10: null, 100: null };
     }
     createLever() {
-        this.lever = this.scene.add.image(this.x+this.width-5, this.y, "atlasik", "register_push").setOrigin(0).setInteractive();
+        this.lever = this.scene.add.image(this.x+this.width-5, this.y, "atlasik", "register_push").setOrigin(0).setInteractive({cursor:"pointer"});
         this.lever.on('pointerdown', (pointer) => {
             this.isDragging = true;
             this.startY = pointer.y;
@@ -130,6 +130,7 @@ export default class CashRegister {
                         this.resetInput();
                     }, ()=>{
                         this.display.setColor('#ff0000');
+                        this.scene.sound.playAudioSprite('audios','purchase_fail');
                     })
                 }
                 this.lever.y = this.y;

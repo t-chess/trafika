@@ -11,8 +11,3 @@ const game = new Phaser.Game({
   powerPreference:"high-performance",
   scene: [new BootScene(undefined,"Main"), Main]
 });
-
-
-
-// https://freesound.org/people/kyles/sounds/452573/
-// https://freesound.org/people/clubmydia+/sounds/584168/
