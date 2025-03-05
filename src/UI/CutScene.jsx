@@ -15,6 +15,9 @@ TODO : dialog with options
 
 */
 
+import SoundButton from "./SoundButton";
+import SpeechBox from "./SpeechBox";
+
 export default class CutScene extends Phaser.Scene {
     constructor(key) {
       super({key});
@@ -31,8 +34,8 @@ export default class CutScene extends Phaser.Scene {
               .setPosition(320, 240);
         });
         this.nextArrow = this.add.image(620, 460, "ui_atlas", "arrow-solo").setOrigin(1).setVisible(false).setInteractive({cursor:"pointer"});
-        this.speechbox = this.add.speechbox();
-        this.add.soundbutton();
+        this.speechbox = new SpeechBox(this);
+        new SoundButton(this);
 
         this.continue();
     }

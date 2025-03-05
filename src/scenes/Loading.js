@@ -1,3 +1,6 @@
+import ProgressBar from "../UI/ProgressBar";
+import SoundButton from "../UI/SoundButton";
+
 export default class Loading extends Phaser.Scene {
   constructor() {
     super("Loading");
@@ -13,7 +16,7 @@ export default class Loading extends Phaser.Scene {
     ]}
     this.load.atlas('bodies', 'bodies.png', bodiesAtlas);
 
-    this.add.progressbar(undefined, 320, undefined, () => this.scene.start("Main"));
-    this.add.soundbutton();
+    new ProgressBar(this,undefined, 320, undefined, () => this.scene.start("Main"));
+    new SoundButton(this);
   }
 }

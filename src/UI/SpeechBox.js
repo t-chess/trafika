@@ -177,6 +177,7 @@ export default class SpeechBox extends Phaser.GameObjects.Container {
     }
     disableOverlay() {
         this.withOverlay = false;
+        return this;
     }
 
 }

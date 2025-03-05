@@ -1,0 +1,120 @@
+[
+    {
+        "key":"news",
+        "price":19,
+        "desc":"Local news"
+    },
+    {
+        "key":"morleyr",
+        "price":169,
+        "desc":"Red Morleys",
+        "cigs":true
+    },
+    {
+        "key":"morleyb",
+        "price":169,
+        "desc":"Blue Morleys",
+        "cigs":true
+    },
+    {
+        "key":"jcr",
+        "price":147,
+        "desc":"JC Classic",
+        "cigs":true
+    },
+    {
+        "key":"jcb",
+        "price":147,
+        "desc":"JC Light",
+        "cigs":true
+    },
+    {
+        "key":"jcm",
+        "price":147,
+        "desc":"JC Menthol",
+        "cigs":true
+    },
+    {
+        "key":"ironlung",
+        "price":152,
+        "desc":"MY IIIIRON LUUUNG",
+        "cigs":true
+    },
+    {
+        "key":"fleuriesp",
+        "price":154,
+        "desc":"Fleuries with lavender and rose uwu",
+        "cigs":true
+    },
+    {
+        "key":"fleuriesy",
+        "price":154,
+        "desc":"Fleuries with chamomile and mugwort uwu",
+        "cigs":true
+    },
+    {
+        "key":"larissa",
+        "price":181,
+        "desc":"Yummy chewy Larissa snusik",
+        "shelf":true
+    },
+    {
+        "key":"nicot",
+        "price":220,
+        "desc":"",
+        "shelf":true
+    },
+    {
+        "key":"jct",
+        "price":202,
+        "desc":"",
+        "shelf":true
+    },
+    {
+        "key":"bruyere",
+        "price":259,
+        "desc":"",
+        "shelf":true
+    },
+    {
+        "key":"morleyt",
+        "price":250,
+        "desc":"",
+        "shelf":true
+    },
+    {
+        "key":"pipes",
+        "price":777,
+        "counter":true
+    },
+    {
+        "key":"papirky",
+        "price":16,
+        "counter":true
+    },
+    {
+        "key":"cigars",
+        "price":150,
+        "counter":true
+    },
+    {
+        "key":"ashtray",
+        "price":222,
+        "counter":true
+    },
+    {
+        "key":"lightersl",
+        "price":399,
+        "counter":true
+    },
+    {
+        "key":"lightersr",
+        "price":649,
+        "counter":true
+    },
+    {
+        "key":"matches",
+        "price":11,
+        "counter":true
+    }
+]

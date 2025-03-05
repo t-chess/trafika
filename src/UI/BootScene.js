@@ -1,7 +1,4 @@
 import Panel from "./Panel";
-import ProgressBar from "./ProgressBar";
-import SoundButton from "./SoundButton";
-import SpeechBox from "./SpeechBox";
 import ArrowPanel from "./ArrowPanel";
 
 export default class BootScene extends Phaser.Scene {
@@ -13,21 +10,6 @@ export default class BootScene extends Phaser.Scene {
     init() {
         Phaser.GameObjects.GameObjectFactory.register('panel', function (...args){
             const obj = new Panel(this.scene, ...args)
-            this.displayList.add(obj);
-            return obj;
-        });
-        Phaser.GameObjects.GameObjectFactory.register('progressbar', function (...args){
-            const obj = new ProgressBar(this.scene, ...args)
-            this.displayList.add(obj);
-            return obj;
-        });
-        Phaser.GameObjects.GameObjectFactory.register('speechbox', function (...args){
-            const obj = new SpeechBox(this.scene, ...args)
-            this.displayList.add(obj);
-            return obj;
-        });
-        Phaser.GameObjects.GameObjectFactory.register('soundbutton', function (...args){
-            const obj = new SoundButton(this.scene, ...args)
             this.displayList.add(obj);
             return obj;
         });
