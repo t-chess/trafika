@@ -1,13 +1,17 @@
 import Bag from "../components/Bag";
 import CashRegister from "../components/CashRegister";
 import SpeechBox from "../UI/SpeechBox";
-import products from "../products.json";
+import products from "../data/products.json";
+import data from "../data/day1.json";
 import Frame from "../components/Frame";
 
 export default class Main extends Phaser.Scene {
     constructor(scenes=[]) {
       super("Main");
-      this.gameState = {};
+      this.gameState = {
+        loop:-1,
+        flags:{}
+      };
     }
     preload() {
         this.load.setPath("assets");
@@ -16,7 +20,7 @@ export default class Main extends Phaser.Scene {
         { filename: "register_suplik", frame: { x: 0, y: 225, w: 170, h: 29 } },
         { filename: "register_push", frame: { x: 611, y: 92, w: 20, h: 66 } },
         { filename: "shelf", frame: { x: 0, y: 254, w: 583, h: 75 } },
-        { filename: "counter", frame: { x: 0, y: 254+75, w: 640, h: 79 } },
+        { filename: "counter", frame: { x: 0, y: 254+75, w: 640, h: 50 } },
         { filename: "news", frame: { x: 176, y: 0, w: 359, h: 81 } },
         { filename: "bag", frame: { x: 640-105, y: 0, w: 105, h: 92 } },
         { filename: "lightersl", frame: { x: 232-56, y: 81, w: 97-40, h: 111 } },
@@ -35,6 +39,7 @@ export default class Main extends Phaser.Scene {
         ...products.filter(p=>p.cigs===true).map((c,i)=>({ filename: c.key, frame: { x: 176+39*i, y: 196, w: 39, h: 58 } }))
         ]}
         this.load.atlas('atlasik', 'trafika_atlas.png', atlasik);
+        this.load.image('felix', 'ffff.png');
         this.load.audioSprite("audios",{
             resources: ["audios.mp3"],
             spritemap: {
@@ -53,7 +58,7 @@ export default class Main extends Phaser.Scene {
         // this.music.play();
         this.frame = new Frame(this);
         this.initNewspapers();
-        this.counter = this.add.image(0, 480-79, "atlasik", "counter").setOrigin(0);
+        this.counter = this.add.image(0, 480-49, "atlasik", "counter").setOrigin(0);
         this.initShelf();
         this.cashRegister = new CashRegister(this).onCheckout((total,success,error)=>{
             if (total===500) { // this will be a real check later 
@@ -67,6 +72,28 @@ export default class Main extends Phaser.Scene {
         this.initCounterItems();
         this.bag = new Bag(this);
         this.speechbox = new SpeechBox(this).disableOverlay();
+
+        this.startNextLoop();
+    }
+    startNextLoop(){
+        this.gameState.loop++;
+        let loopdata = data[this.gameState.loop];
+        this.frame.setup(loopdata.characters);
+        let dk = "entry";
+        Object.keys(this.gameState.flags).forEach(ek => {
+            if (this.gameState.flags[ek] && loopdata.dialogues[`entry_${ek}`]) {
+                dk = `entry_${ek}`;
+            }
+        });
+        if (loopdata.dialogues[dk]) {
+            this.frame.startDialogue(loopdata.dialogues[dk]);
+        } 
+
+    }
+    trigger(event) {
+        if (eventKey === "loop_end") {
+            this.startNextLoop();
+        }
     }
     initNewspapers(){
         this.initProduct(this.add.image(81, 50, "atlasik", "news").setAngle(90).setFlipY(true).setOrigin(0));
@@ -74,32 +101,46 @@ export default class Main extends Phaser.Scene {
         this.add.text(10, 190, price, { fontSize: "12px", backgroundColor: "#fff", color: "#000" });
     }
     initShelf(){
-        this.add.image(30, 0, "atlasik", "shelf").setOrigin(0);
+        this.shelfCont = this.add.container(0,0);
+        this.shelfShow = true;
+        let shelf = this.add.image(30, 0, "atlasik", "shelf").setOrigin(0).setInteractive({cursor:"pointer"});
+        shelf.on("pointerdown", () => {
+            this.tweens.add({
+              targets: this.shelfCont,
+              y: this.shelfShow ? -50 : 0,
+              duration: 300,
+              ease: "Power2"
+            });
+            this.shelfShow = !this.shelfShow;
+          });
+          this.shelfCont.add(shelf);
+        
         products.filter(p=>p.cigs===true).map((e,i)=>{
             e.obj = this.add.image(60+39*i, 0, "atlasik",e.key).setOrigin(0);
-            this.add.text(67+39*i, 54, e.price, {fontSize:'11px',backgroundColor:'#ffffff',color:"#000000"});
+            this.shelfCont.add(e.obj);
+            this.shelfCont.add(this.add.text(67+39*i, 54, e.price, {fontSize:'11px',backgroundColor:'#ffffff',color:"#000000"}));
             this.initProduct(e.obj,3);
             return e;
         })
         const rest = Object.fromEntries(products.filter(p=>p.shelf===true).map(p=>[p.key,p.price]));
-        this.initProduct(this.add.image(430, -2, "atlasik", "larissa").setOrigin(0),5);
-        this.add.text(444, 54, rest.larissa, {fontSize:'11px',backgroundColor:'#ffffff',color:"#000000"});
-        this.initProduct(this.add.image(525, -20, "atlasik", "nicot").setOrigin(0),12);
-        this.add.text(540, 54, rest.nicot, {fontSize:'11px',backgroundColor:'#ffffff',color:"#000000"});
-        this.initProduct(this.add.image(484, -13, "atlasik", "jct").setOrigin(0),5);
-        this.add.text(503, 54, rest.jct, {fontSize:'11px',backgroundColor:'#ffffff',color:"#000000"});
-        this.initProduct(this.add.image(387, 20, "atlasik", "bruyere").setOrigin(0),5);
-        this.add.text(400, 63, rest.bruyere, {fontSize:'11px',backgroundColor:'#ffffff',color:"#000000"});
-        this.initProduct(this.add.image(390, -7, "atlasik", "morleyt").setOrigin(0));
-        this.add.text(400, 52, rest.morleyt, {fontSize:'11px',backgroundColor:'#ffffff',color:"#000000"});
+        this.shelfCont.add(this.initProduct(this.add.image(430, -2, "atlasik", "larissa").setOrigin(0),5));
+        this.shelfCont.add(this.add.text(444, 54, rest.larissa, {fontSize:'11px',backgroundColor:'#ffffff',color:"#000000"}));
+        this.shelfCont.add(this.initProduct(this.add.image(525, -20, "atlasik", "nicot").setOrigin(0),12));
+        this.shelfCont.add(this.add.text(540, 54, rest.nicot, {fontSize:'11px',backgroundColor:'#ffffff',color:"#000000"}));
+        this.shelfCont.add(this.initProduct(this.add.image(484, -13, "atlasik", "jct").setOrigin(0),5));
+        this.shelfCont.add(this.add.text(503, 54, rest.jct, {fontSize:'11px',backgroundColor:'#ffffff',color:"#000000"}));
+        this.shelfCont.add(this.initProduct(this.add.image(387, 20, "atlasik", "bruyere").setOrigin(0),5));
+        this.shelfCont.add(this.add.text(400, 63, rest.bruyere, {fontSize:'11px',backgroundColor:'#ffffff',color:"#000000"}));
+        this.shelfCont.add(this.initProduct(this.add.image(390, -7, "atlasik", "morleyt").setOrigin(0)));
+        this.shelfCont.add(this.add.text(400, 52, rest.morleyt, {fontSize:'11px',backgroundColor:'#ffffff',color:"#000000"}));
     }
     initCounterItems(){
         const rest = Object.fromEntries(products.filter(p=>p.counter===true).map(p=>[p.key,p.price]));
         const items = [
-            { key: "pipes", x: 0, y: 333, priceX: 50, priceY: 440 },
-            { key: "papirky", x: 0, y: 295, priceX: 15, priceY: 310 },
-            { key: "cigars", x: 55, y: 268, priceX: 75, priceY: 330 },
-            { key: "ashtray", x: 111, y: 388, priceX: 140, priceY: 444 },
+            { key: "pipes", x: 0, y: 353, priceX: 50, priceY: 450 },
+            { key: "papirky", x: 0, y: 315, priceX: 15, priceY: 330 },
+            { key: "cigars", x: 55, y: 288, priceX: 75, priceY: 350 },
+            { key: "ashtray", x: 111, y: 408, priceX: 140, priceY: 454 },
             { key: "lightersl", x: 505, y: 135, priceX: 525, priceY: 225 },
             { key: "lightersr", x: 562, y: 135, priceX: 570, priceY: 225 },
             { key: "matches", x: 458, y: 195, priceX: 475, priceY: 230 },

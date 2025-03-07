@@ -32,6 +32,6 @@ export default class Bag extends Phaser.GameObjects.Image {
         //     }
         // }
         this.items.push(itemKey);
-        console.log(this.items);
+        // console.log(this.items);
     }
 }

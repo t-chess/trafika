@@ -1,0 +1,36 @@
+[
+    {
+        "key": "starttut1",
+        "characters": [{"key":"felix"}],
+        "order": ["bruyere", "matchesX3"],
+        "dialogues": {
+            "entry": [
+                { "character": "Félix", "text": "Oke bitch listen here. I want pipe tobacco and 3 boxes of matches." },
+                { "character": "Félix", "text": "Drag them into the bag, calculate the price and enter it into the register." },
+                { "character": "Félix", "text": "Don't be stupid.", "emotion": "angry" }
+            ],
+            "checkout": [
+                { "character": "Félix", "text": "You did it, now let's try one more time.", "event": "checkout_success" }
+            ]
+        },
+        "flags": {
+            "checkout_success": true
+        }
+    },
+    {
+        "key": "starttut2",
+        "characters": [{"key":"felix"}],
+        "order": ["news", "cigars"],
+        "dialogues": {
+            "entry_checkout_success": [
+                { "character": "Félix", "text": "You got it right last time, let's see if it wasn't a fluke." }
+            ],
+            "entry": [
+                { "character": "Félix", "text": "Let's see if you learned anything." }
+            ],
+            "wrong_price": [
+                { "character": "Félix", "text": "Not again, dumbass!", "emotion": "angry" }
+            ]
+        }
+    }
+]
