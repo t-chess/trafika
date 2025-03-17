@@ -7,73 +7,73 @@
     {
         "key":"morleyr",
         "price":169,
-        "desc":"Red Morleys",
+        "desc":"Morleys. Expensive, popular, and the choice of people who think smoking should look cool.",
         "cigs":true
     },
     {
         "key":"morleyb",
         "price":169,
-        "desc":"Blue Morleys",
+        "desc":"Menthol Morleys - when you want your bad habit to smell a little less like a bad habit.",
         "cigs":true
     },
     {
         "key":"jcr",
         "price":147,
-        "desc":"JC Classic",
+        "desc":"JC. The kind most people smoke without thinking about it.",
         "cigs":true
     },
     {
         "key":"jcb",
         "price":147,
-        "desc":"JC Light",
+        "desc":"JC but a little softer.",
         "cigs":true
     },
     {
         "key":"jcm",
         "price":147,
-        "desc":"JC Menthol",
+        "desc":"JC but with just enough mint to cover up the cheap tobacco.",
         "cigs":true
     },
     {
         "key":"ironlung",
-        "price":152,
-        "desc":"MY IIIIRON LUUUNG",
+        "price":151,
+        "desc":"Takes a while to get used to, but I guess I have.",
         "cigs":true
     },
     {
         "key":"fleuriesp",
-        "price":154,
-        "desc":"Fleuries with lavender and rose uwu",
+        "price":159,
+        "desc":"Fleuries with lavender and rose. For hippies and people who panic at the thought of being ordinary.",
         "cigs":true
     },
     {
         "key":"fleuriesy",
-        "price":154,
-        "desc":"Fleuries with chamomile and mugwort uwu",
+        "price":159,
+        "desc":"Fleuries with chamomile, mugwort and the belief that smoking herbs makes you enlightened.",
         "cigs":true
     },
     {
         "key":"larissa",
         "price":181,
-        "desc":"Yummy chewy Larissa snusik",
+        "desc":"Larissa. I heard chewing tobacco tastes like bitter molasses and sticks to your teeth - and everything else.",
         "shelf":true
     },
     {
         "key":"nicot",
         "price":220,
-        "desc":"",
+        "desc":"Nicot Rolling Tobacco. Slightly better quality, slightly moodier vibe, still just tobacco.",
         "shelf":true
     },
     {
         "key":"jct",
         "price":202,
-        "desc":"",
+        "desc":"JC Pipe & Cigarette Tobacco. Not great for a pipe, not great for a cigarette, but it burns.",
         "shelf":true
     },
     {
         "key":"bruyere",
         "price":259,
-        "desc":"",
+        "desc":"Bruyère pipe tobacco. For those who want to feel sophisticated.",
         "shelf":true
     },
     {
@@ -90,6 +90,7 @@
     {
         "key":"papirky",
         "price":16,
+        "desc":"Rolling papers. For rolling your own cigarettes, or whatever else.",
         "counter":true
     },
     {
@@ -115,6 +116,7 @@
     {
         "key":"matches",
         "price":11,
+        "desc":"A box of matches. Cheap, disposable, just like us.",
         "counter":true
     }
 ]

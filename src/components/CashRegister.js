@@ -1,3 +1,4 @@
+import products from "../data/products.json";
 export default class CashRegister {
     constructor(scene, x = 450, y = 270) {
         this.scene = scene;
@@ -9,9 +10,9 @@ export default class CashRegister {
         this.total = 0;
         this.pressed = {1:null,10:null,100:null};
 
-        this.body = this.scene.add.image(this.x-6, this.y-37, "atlasik", "register_body").setOrigin(0).setInteractive();
+        this.body = this.scene.add.image(this.x-6, this.y-37, "items", "register_body").setOrigin(0).setInteractive();
 
-        this.suplik = this.scene.add.image(this.x, this.y+this.height+2, "atlasik", "register_suplik").setOrigin(0,1);
+        this.suplik = this.scene.add.image(this.x, this.y+this.height+2, "items", "register_suplik").setOrigin(0,1);
 
         this.display = this.scene.add.text(this.x+this.width-25, this.y, '0', {
             fontSize: '16px',
@@ -19,8 +20,8 @@ export default class CashRegister {
         }).setOrigin(1);
         this.createButtons();
         this.createLever();
-        this.checkoutCallback = ()=>{};
 
+        this.order = [];
     }
     createButtons() {
         this.buttons = [];
@@ -100,7 +101,7 @@ export default class CashRegister {
         this.pressed = { 1: null, 10: null, 100: null };
     }
     createLever() {
-        this.lever = this.scene.add.image(this.x+this.width-5, this.y, "atlasik", "register_push").setOrigin(0).setInteractive({cursor:"pointer"});
+        this.lever = this.scene.add.image(this.x+this.width-5, this.y, "items", "register_push").setOrigin(0).setInteractive({cursor:"pointer"});
         this.lever.on('pointerdown', (pointer) => {
             this.isDragging = true;
             this.startY = pointer.y;
@@ -125,13 +126,7 @@ export default class CashRegister {
             }
             if (this.isDragging) {
                 if (this.lever.y > this.y + 30) {
-                    this.checkoutCallback(this.total, () => {
-                        this.scene.sound.playAudioSprite('audios','purchase');
-                        this.resetInput();
-                    }, ()=>{
-                        this.display.setColor('#ff0000');
-                        this.scene.sound.playAudioSprite('audios','purchase_fail');
-                    })
+                    this.checkout();
                 }
                 this.lever.y = this.y;
                 this.isDragging = false;
@@ -139,7 +134,42 @@ export default class CashRegister {
             }
         });
     }
-    onCheckout(cb){
-        this.checkoutCallback = cb;
+    setOrder(orderArr){
+        this.order = orderArr.map(i=>{
+            let [key,q] = i.includes('X')?i.split("X"):[i,1];
+            return {key,quantity:parseInt(q,10)}
+        })
+        this.price = this.order.reduce((sum, item) => sum + products.find(p => p.key === item.key).price * item.quantity, 0);
+    }
+    checkout(){
+        if (!this.order.length) return
+        if (!this.compare()) {
+            this.onError("wrong_items");
+            return
+        }
+        if (this.price!==this.total) {
+            this.onError("wrong_price",this.total);
+            return
+        }
+        this.scene.sound.playAudioSprite('audios','purchase');
+        this.scene.trigger("checkout");
+        this.resetInput(); 
+        this.order.length = 0;
+        this.scene.bag.empty();
+    }
+    compare(){
+        const bag = this.scene.bag.getAll();
+        if (this.order.length!==bag.length) return false
+        let expectedMap = Object.fromEntries(this.order.map(item => [item.key, item.quantity]));
+        let actualMap = Object.fromEntries(bag.map(item => [item.key, item.quantity]));
+        for (let key in expectedMap) {
+            if (actualMap[key] !== expectedMap[key]) return false;
+        }
+        return true;
+    }
+    onError(e){
+        this.display.setColor('#ff0000');
+        this.scene.sound.playAudioSprite('audios','purchase_fail');
+        this.scene.trigger(e);
     }
 }

@@ -19,9 +19,10 @@ import SoundButton from "./SoundButton";
 import SpeechBox from "./SpeechBox";
 
 export default class CutScene extends Phaser.Scene {
-    constructor(key) {
+    constructor(key="CutScene",smooth=true) {
       super({key});
       this.scenesArray = [];
+      this.smooth = smooth;
     }
     setScenes(arr) {
         this.sound.pauseOnBlur = false;
@@ -49,9 +50,31 @@ export default class CutScene extends Phaser.Scene {
         }
         this.nextArrow.setVisible(false);
         const currentScene = this.scenesArray[this.nextIndex];
-        this.scenesArray.forEach((scene,i) => {
-            this[scene.bgKey].setVisible(i===this.nextIndex)
-        })
+        const newBg = this[currentScene.bgKey];
+        if (this.smooth) {
+            newBg.setAlpha(0);
+            newBg.setVisible(true);
+            newBg.setDepth(1);
+            if (this.currentBg && this.currentBg !== newBg) {
+                this.currentBg.setDepth(0);
+            }
+            this.tweens.add({
+                targets: newBg,
+                alpha: 1,
+                duration: 500,
+                ease: "Power2",
+                onComplete: () => {
+                    if (this.currentBg && this.currentBg !== newBg) {
+                        this.currentBg.setVisible(false);
+                    }
+                    this.currentBg = newBg;
+                }
+            });
+        } else {
+            this.scenesArray.forEach((scene, i) => {
+                this[scene.bgKey].setVisible(i === this.nextIndex);
+            });
+        }
 
         this.time.delayedCall(currentScene.delay||1000, ()=>{
             if (!currentScene.dialog||!currentScene.dialog.length) {

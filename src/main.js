@@ -2,6 +2,7 @@ import Phaser from "phaser";
 import Main from "./scenes/Main";
 import BootScene from "./UI/BootScene";
 import { Intro } from "./scenes/Scenes";
+import Ashtray from "./scenes/Ashtray";
 
 const game = new Phaser.Game({
   type: Phaser.AUTO,
@@ -10,5 +11,5 @@ const game = new Phaser.Game({
   parent: "container",
   backgroundColor: 0x696969,
   powerPreference:"high-performance",
-  scene: [new BootScene(undefined,"Main"), Intro, Main]
+  scene: [new BootScene(undefined,"Ashtray"), Intro, Main, Ashtray]
 });

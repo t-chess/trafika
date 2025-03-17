@@ -44,6 +44,8 @@ export default class SpeechBox extends Phaser.GameObjects.Container {
             this.options.push(optionPanel);
             this.add(optionPanel);
         }
+
+        this.setDepth(10);
     }
     setName(name) {
         this.character = name;

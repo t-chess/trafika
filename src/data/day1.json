@@ -9,12 +9,18 @@
                 { "character": "Félix", "text": "Drag them into the bag, calculate the price and enter it into the register." },
                 { "character": "Félix", "text": "Don't be stupid.", "emotion": "angry" }
             ],
-            "checkout": [
-                { "character": "Félix", "text": "You did it, now let's try one more time.", "event": "checkout_success" }
+            "wrong_items": [
+                { "character": "Félix", "text": "Wrong items text.", "flag":"tut1_mistake", "onComplete":"clicks" }
+            ],
+            "wrong_price": [
+                { "character": "Félix", "text": "Wrong price text.", "flag":"tut1_mistake" }
+            ],
+            "click":[
+                { "character": "Félix", "text": "Pipe tobacco and 3 boxes of matches.", "options": [{"text":"Yeah boss", "flag":"being_polite"}, {"text":"..."}] }
+            ],
+            "checkout":[
+                { "character": "Félix", "text": "You did it, now let's try one more time."}
             ]
-        },
-        "flags": {
-            "checkout_success": true
         }
     },
     {
@@ -22,14 +28,20 @@
         "characters": [{"key":"felix"}],
         "order": ["news", "cigars"],
         "dialogues": {
-            "entry_checkout_success": [
+            "entry": [
                 { "character": "Félix", "text": "You got it right last time, let's see if it wasn't a fluke." }
             ],
-            "entry": [
+            "entry_being_polite": [
+                { "character": "Félix", "text": "Awwww " }
+            ],
+            "entry_tut1_mistake": [
                 { "character": "Félix", "text": "Let's see if you learned anything." }
             ],
             "wrong_price": [
                 { "character": "Félix", "text": "Not again, dumbass!", "emotion": "angry" }
+            ],
+            "checkout":[
+                { "character": "Félix", "text": "Well done. Well, have fun, you can read newspapers or magazines if you want. See ya."}
             ]
         }
     }
