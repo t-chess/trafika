@@ -42,6 +42,7 @@ export default class Ashtray extends Phaser.Scene {
                 this.copy = this.add.image(i.x, i.y, "items", i.frame).setOrigin(0.5).setAngle(sprite.angle).setVisible(false);
             });
             sprite.on("drag", (pointer) => {
+                if (window.innerWidth<1000&&Phaser.Math.Distance.Between(i.x, i.y, pointer.x, pointer.y)<15) return
                 this.isDragging = true;
                 if (this.copy) {
                     if (!this.copy.visible) this.copy.setVisible(true);
