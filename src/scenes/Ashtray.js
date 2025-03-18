@@ -1,5 +1,6 @@
 import atlases from "../data/atlases.json";
 import SoundButton from "../UI/SoundButton";
+import SpeechBox from "../UI/SpeechBox";
 
 export default class Ashtray extends Phaser.Scene {
     constructor() {
@@ -36,7 +37,7 @@ export default class Ashtray extends Phaser.Scene {
             {frame:"match1",x:520,y:370,rotation: 0.7},
             {frame:"match2",x:610,y:340}
         ].forEach(i => {
-            let sprite = this.add.image(i.x, i.y, "items", i.frame).setInteractive({ draggable: true }).setOrigin(0.5).setRotation(i.rotation);
+            let sprite = this.add.image(i.x, i.y, "items", i.frame).setInteractive({ cursor:"pointer",draggable: true }).setOrigin(0.5).setRotation(i.rotation);
             sprite.on("dragstart", () => {
                 this.copy = this.add.image(i.x, i.y, "items", i.frame).setOrigin(0.5).setAngle(sprite.angle).setVisible(false);
             });
@@ -67,12 +68,16 @@ export default class Ashtray extends Phaser.Scene {
             this.things.add(sprite);
         });
         
-        this.add.panel(20,420,"sm",20).setSize(2,2).setText("\u27F2").onClick(()=>{
-            this.titlePanel.setText((new Date()).getSeconds());
+        // this.add.panel(20,420,"sm",20).setSize(2,2).setText("\u27F2").onClick(()=>{
+        //     this.titlePanel.setText((new Date()).getSeconds());
+        // });
+        // this.titlePanel = this.add.panel(60,420,"sm").setSize(10,2).setText("\"Hello\"");
+        // this.add.panel(460,420,"sm").setSize(4,2).setText("Clear");
+        // this.add.panel(540,420,"sm").setSize(4,2).setText("Done");
+
+        this.add.panel(20,420,"sm",20).setSize(2,2).setText("?").onClick(()=>{
+            this.speechbox.run("Кликнуть на окурки/спички чтобы их повернуть, перетащить чтобы положить в попелник. Просто потыкать туда чтобы порисовать пеплом.")
         });
-        this.titlePanel = this.add.panel(60,420,"sm").setSize(10,2).setText("\"Hello\"");
-        this.add.panel(460,420,"sm").setSize(4,2).setText("Clear");
-        this.add.panel(540,420,"sm").setSize(4,2).setText("Done");
         
 
         this.input.on("pointermove", (pointer) => {
@@ -85,7 +90,8 @@ export default class Ashtray extends Phaser.Scene {
             }
         }, this);      
 
-        new SoundButton(this);
+        // new SoundButton(this);
+        this.speechbox = new SpeechBox(this);
     }
     contains(x,y){
         return Phaser.Geom.Polygon.Contains(this.heartPolygon, x, y);
