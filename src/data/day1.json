@@ -1,47 +1,80 @@
 [
     {
-        "key": "starttut1",
+        "key": "st0",
+        "characters": [{"key":"felix"}],
+        "order": ["matches"],
+        "money":20,
+        "dialogues": {
+            "entry": [
+                { "text": "entry - matches x1" }
+            ],
+            "wrong_items": [
+                { "character": "Félix", "text": "That's not what I asked for. Try again.", "flag":"st1_mistake", "onComplete":"click" }
+            ],
+            "wrong_price": [
+                { "character": "Félix", "text": "Right stuff, wrong number. Do the math again.", "flag":"st1_mistake" }
+            ],
+            "click":[
+                { "character": "Félix", "text": "A tin of Morley tobacco, three boxes of matches. In the bag, on the register, then the lever.", "flag":"st1_help"}
+            ],
+            "checkout":[
+                { "character": "Félix", "text": "See? Easy enough. Now let's try one more time."}
+            ],
+            "checkout_st1_mistake":[
+                { "character": "Félix", "text": "Okay, you figured it out, eventually. Let's try again."}
+            ]
+        },
+        "next": "st2" 
+    },
+    {
+        "key": "st1",
         "characters": [{"key":"felix"}],
         "order": ["bruyere", "matchesX3"],
         "dialogues": {
             "entry": [
-                { "character": "Félix", "text": "Oke bitch listen here. I want pipe tobacco and 3 boxes of matches." },
-                { "character": "Félix", "text": "Drag them into the bag, calculate the price and enter it into the register." },
-                { "character": "Félix", "text": "Don't be stupid.", "emotion": "angry" }
+                { "character": "Félix", "text": "Alright, it's simple. Customer asks for something, you grab it, put it in the bag." },
+                { "character": "Félix", "text": "Check the price, set it on the register, push the lever. That's it." },
+                { "character": "Félix", "text": "And when they pay, count it right. People get weird about their change.", "emotion": "angry" },
+                { "text": "(Click on an item to see its description. Drag it into the bag to add it to the purchase.)" },
+                { "text": "(To ring up the total, enter the price on the register, then drag the lever down.)" },
+                { "text": "(Count the customer's money, then click on the right banknotes and coins to give them their change.)" },
+                { "character": "Félix", "text": "Let's try it out. Sell me a tin of Morley and three boxes of matches." }
             ],
             "wrong_items": [
-                { "character": "Félix", "text": "Wrong items text.", "flag":"tut1_mistake", "onComplete":"clicks" }
+                { "character": "Félix", "text": "That's not what I asked for. Try again.", "flag":"st1_mistake", "onComplete":"click" }
             ],
             "wrong_price": [
-                { "character": "Félix", "text": "Wrong price text.", "flag":"tut1_mistake" }
+                { "character": "Félix", "text": "Right stuff, wrong number. Do the math again.", "flag":"st1_mistake" }
             ],
             "click":[
-                { "character": "Félix", "text": "Pipe tobacco and 3 boxes of matches.", "options": [{"text":"Yeah boss", "flag":"being_polite"}, {"text":"..."}] }
+                { "character": "Félix", "text": "A tin of Morley tobacco, three boxes of matches. In the bag, on the register, then the lever.", "flag":"st1_help"}
             ],
             "checkout":[
-                { "character": "Félix", "text": "You did it, now let's try one more time."}
+                { "character": "Félix", "text": "See? Easy enough. Now let's try one more time."}
+            ],
+            "checkout_st1_mistake":[
+                { "character": "Félix", "text": "Okay, you figured it out, eventually. Let's try again."}
             ]
-        }
+        },
+        "next": "st2" 
     },
     {
-        "key": "starttut2",
+        "key": "st2",
         "characters": [{"key":"felix"}],
         "order": ["news", "cigars"],
         "dialogues": {
             "entry": [
                 { "character": "Félix", "text": "You got it right last time, let's see if it wasn't a fluke." }
             ],
-            "entry_being_polite": [
-                { "character": "Félix", "text": "Awwww " }
-            ],
-            "entry_tut1_mistake": [
+            "entry_st1_mistake": [
                 { "character": "Félix", "text": "Let's see if you learned anything." }
             ],
             "wrong_price": [
-                { "character": "Félix", "text": "Not again, dumbass!", "emotion": "angry" }
+                { "character": "Félix", "text": "Not again.", "emotion": "angry" }
             ],
             "checkout":[
-                { "character": "Félix", "text": "Well done. Well, have fun, you can read newspapers or magazines if you want. See ya."}
+                { "character": "Félix", "text": "Well done. Well, have fun, you can read newspapers or magazines if you want. See ya."},                
+                { "character": "Félix", "text": "Oh, and some people come in more for the conversation than the cigarettes. Whether you listen or not is up to you." }
             ]
         }
     }

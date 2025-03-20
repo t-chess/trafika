@@ -37,19 +37,19 @@
     {
         "key":"ironlung",
         "price":151,
-        "desc":"Takes a while to get used to, but I guess I have.",
+        "desc":"Takes a while to get used to Iron Lung, but I guess I have.",
         "cigs":true
     },
     {
         "key":"fleuriesp",
         "price":159,
-        "desc":"Fleuries with lavender and rose. For hippies and people who panic at the thought of being ordinary.",
+        "desc":"Fleuries with lavender and rose. For dreamers and people who panic at the thought of being ordinary.",
         "cigs":true
     },
     {
         "key":"fleuriesy",
         "price":159,
-        "desc":"Fleuries with chamomile, mugwort and the belief that smoking herbs makes you enlightened.",
+        "desc":"Fleuries with chamomile, mugwort and belief that smoking herbs makes you enlightened.",
         "cigs":true
     },
     {
@@ -61,30 +61,31 @@
     {
         "key":"nicot",
         "price":220,
-        "desc":"Nicot Rolling Tobacco. Slightly better quality, slightly moodier vibe, still just tobacco.",
+        "desc":"Nicot rolling tobacco. Slightly better quality, slightly moodier vibe, still just tobacco.",
         "shelf":true
     },
     {
         "key":"jct",
         "price":202,
-        "desc":"JC Pipe & Cigarette Tobacco. Not great for a pipe, not great for a cigarette, but it burns.",
+        "desc":"JC pipe & cigarette tobacco. Not great for a pipe, not great for a cigarette, but it burns.",
         "shelf":true
     },
     {
         "key":"bruyere",
         "price":259,
-        "desc":"Bruyère pipe tobacco. For those who want to feel sophisticated.",
+        "desc":"Bruyère pipe tobacco. For those who want to feel a bit sophisticated.",
         "shelf":true
     },
     {
         "key":"morleyt",
         "price":250,
-        "desc":"",
+        "desc":"Morley rolling tobacco. Boring.",
         "shelf":true
     },
     {
         "key":"pipes",
         "price":777,
+        "desc":"You see a pipe, you expect a story. Whether it's true or not is another thing.",
         "counter":true
     },
     {
@@ -96,21 +97,25 @@
     {
         "key":"cigars",
         "price":150,
+        "desc":"A cigarette says nothing. A cigar tries to say something. Not sure what.",
         "counter":true
     },
     {
         "key":"ashtray",
         "price":222,
+        "desc":"Aww, out of all the ashtrays, Félix picked the cute one. Adorable.",
         "counter":true
     },
     {
         "key":"lightersl",
         "price":399,
+        "desc":"Lighters. Work fine, unless it's windy, raining, or just my kind of luck.",
         "counter":true
     },
     {
         "key":"lightersr",
         "price":649,
+        "desc":"Nicer lighters, probably someone's next gift.",
         "counter":true
     },
     {

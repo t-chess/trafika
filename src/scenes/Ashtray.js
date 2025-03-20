@@ -2,9 +2,17 @@ import atlases from "../data/atlases.json";
 import SoundButton from "../UI/SoundButton";
 import SpeechBox from "../UI/SpeechBox";
 
+const names = [
+    {key:"me",text:"This is me"},
+    {key:"tooth",text:"Tooth"},
+    {key:"seal",text:"Gray seal"}
+]
+
 export default class Ashtray extends Phaser.Scene {
     constructor() {
       super("Ashtray");
+      this.i = 0;
+      this.touched = false;
     }
     preload(){
         this.load.setPath("assets");
@@ -42,7 +50,7 @@ export default class Ashtray extends Phaser.Scene {
                 this.copy = this.add.image(i.x, i.y, "items", i.frame).setOrigin(0.5).setAngle(sprite.angle).setVisible(false);
             });
             sprite.on("drag", (pointer) => {
-                if (window.innerWidth<1000&&Phaser.Math.Distance.Between(i.x, i.y, pointer.x, pointer.y)<15) return
+                if (window.innerWidth<1000&&Phaser.Math.Distance.Between(i.x, i.y, pointer.x, pointer.y)<25) return
                 this.isDragging = true;
                 if (this.copy) {
                     if (!this.copy.visible) this.copy.setVisible(true);
@@ -52,6 +60,7 @@ export default class Ashtray extends Phaser.Scene {
             sprite.on("dragend", (pointer) => {
                 if (this.contains(pointer.x, pointer.y)) {
                     this.rt.draw(this.copy, pointer.x, pointer.y);
+                    if (!this.touched) this.touched=true;
                 } 
                 this.copy.destroy();
                 this.copy=null;
@@ -69,17 +78,19 @@ export default class Ashtray extends Phaser.Scene {
             this.things.add(sprite);
         });
         
-        // this.add.panel(20,420,"sm",20).setSize(2,2).setText("\u27F2").onClick(()=>{
-        //     this.titlePanel.setText((new Date()).getSeconds());
-        // });
-        // this.titlePanel = this.add.panel(60,420,"sm").setSize(10,2).setText("\"Hello\"");
-        // this.add.panel(460,420,"sm").setSize(4,2).setText("Clear");
-        // this.add.panel(540,420,"sm").setSize(4,2).setText("Done");
-
-        this.add.panel(20,420,"sm",20).setSize(2,2).setText("?").onClick(()=>{
-            this.speechbox.run("Кликнуть на окурки/спички чтобы их повернуть, перетащить чтобы положить в попелник. Просто потыкать туда чтобы порисовать пеплом.")
+        this.add.panel(20,420,"sm",20).setSize(2,2).setText("\u27F2").onClick(()=>{
+            this.i = this.i+1===names.length?0:this.i+1;
+            this.titlePanel.setText(names[this.i].text);
         });
-        
+        this.titlePanel = this.add.panel(60,420,"sm").setSize(10,2).setText(names[this.i].text);
+        this.add.panel(460,420,"sm").setSize(4,2).setText("Clear").onClick(()=>{
+            this.rt.clear();
+            this.touched = false;
+        });
+        this.add.panel(540,420,"sm").setSize(4,2).setText("Done").onClick(()=>{
+            this.registry.set('ashtray',this.touched ? names[this.i] : null);
+            this.scene.start("Main");
+        });
 
         this.input.on("pointermove", (pointer) => {
             if (pointer.isDown&&!this.isDragging&&this.contains(pointer.x, pointer.y)) {
@@ -87,11 +98,12 @@ export default class Ashtray extends Phaser.Scene {
                     this.lastX = pointer.x;
                     this.lastY = pointer.y;
                     this.rt.drawFrame("items", "ash", pointer.x - Phaser.Math.Between(20, 30), pointer.y - Phaser.Math.Between(20, 30));
+                    if (!this.touched) this.touched=true;
                 }
             }
         }, this);      
 
-        // new SoundButton(this);
+        new SoundButton(this);
         this.speechbox = new SpeechBox(this);
     }
     contains(x,y){

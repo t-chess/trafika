@@ -23,15 +23,15 @@ export default class SpeechBox extends Phaser.GameObjects.Container {
         this.add(this.box);
         
         this.textline = this.scene.add.text(20, -this.currentLines * 20 + 12, "", {
-            font: "16px monospace",
+            font: "16px",
             color: "#ffffff",
-            wordWrap: { width: 560, useAdvancedWrap: true },
+            wordWrap: { width: 560 },
             lineSpacing: 2,
         }).setOrigin(0,0);
         this.add(this.textline);
 
         this.nextBtn = this.scene.add.text(580, -20, "▶", {
-            font: "16px monospace",
+            font: "16px",
             color: "#ffffff",
         })
         .setOrigin(1,0.5)
@@ -48,6 +48,7 @@ export default class SpeechBox extends Phaser.GameObjects.Container {
         this.setDepth(10);
     }
     setName(name) {
+        if (this.character === name) return
         this.character = name;
         if (this.nameBox) {
             this.nameBox.destroy();
@@ -158,9 +159,12 @@ export default class SpeechBox extends Phaser.GameObjects.Container {
     }
     showOptions(options,optCallback) {
         let yOffset = this.currentLines * 20;
+        if (options.length>this.maxOptions) {
+            console.error("!!! options.length > this.maxOptions !!!")
+        }
         [...options].reverse().forEach(({ text, callback, ...rest }, index) => {
             const w = Math.max(3, Math.ceil(text.length/2)+2);
-            this.options[index].setSize(w, 2).setText(text).setPosition(600 - w * 20, -40 - yOffset).setVisible(true).onClick(() => {
+            this.options[index].setSize(w, 2).setPosition(600 - w * 20, -40 - yOffset).setText(text).setVisible(true).onClick(() => {
                 this.scene.sound.play("ui_click");
                 this.hideOptions(); 
                 this.overlay.setVisible(false);
@@ -177,8 +181,8 @@ export default class SpeechBox extends Phaser.GameObjects.Container {
             option.onClick(null);
         });
     }
-    disableOverlay() {
-        this.withOverlay = false;
+    setOverlay(v=true) {
+        this.withOverlay = v;
         return this;
     }
 

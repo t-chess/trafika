@@ -50,7 +50,7 @@ export default class Panel extends Phaser.GameObjects.Container {
 
         if (this.textObject) {
             this.textObject.setWordWrapWidth((this.width - 1) * this.tileSize);
-            this.textObject.setPosition((this.width * this.tileSize) / 2, (this.height * this.tileSize) / 2);
+            this.centerText();
             this.bringToTop(this.textObject);
         }
         if (this.clickable) {
@@ -63,20 +63,28 @@ export default class Panel extends Phaser.GameObjects.Container {
     setText(text) {
         if (!this.textObject) {
             this.textObject = this.scene.add.text(
-                (this.width * this.tileSize) / 2,
-                (this.height * this.tileSize) / 2,
+                0,0,
                 text,
                 {
-                    fontSize: `${this.fontSize}px`,
+                    font: `${this.fontSize}px`,
                     color: "#ffffff",
                     align:'center',
                     lineSpacing: 2,
                     wordWrap: { width: (this.width - 1) * this.tileSize, useAdvancedWrap: true },
                 }
-            ).setOrigin(0.5);
+            );
             this.add(this.textObject);
         } else {
             this.textObject.setText(text);
+        }
+        this.centerText();
+        return this
+    }
+    centerText(){
+        if (this.textObject) {
+            let centerX = Math.round((this.width * this.tileSize - this.textObject.width) / 2);
+            let centerY = Math.round((this.height * this.tileSize - this.textObject.height) / 2);
+            this.textObject.setPosition(centerX, centerY);
         }
         return this
     }

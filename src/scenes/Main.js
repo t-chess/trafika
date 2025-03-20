@@ -10,17 +10,13 @@ import SoundButton from "../UI/SoundButton";
 export default class Main extends Phaser.Scene {
     constructor(scenes=[]) {
       super("Main");
-      this.gameState = {
-        loop:-1,
-        loopdata:null,
-        flags:{}
-      };
+      this.loopdata = null;
     }
     preload() {
         this.load.setPath("assets");
         this.load.atlas('items', 'items.png', {frames:[
             ...atlases.products,
-            ...products.filter(p=>p.cigs===true).map((c,i)=>({ filename: c.key, frame: { x: 176+39*i, y: 196, w: 39, h: 58 } }))
+            ...products.filter(p=>p.cigs).map((c,i)=>({ filename: c.key, frame: { x: 176+39*i, y: 196, w: 39, h: 58 } }))
         ]});
         this.load.atlas('characters', 'characters.png', {frames:atlases.characters});
         this.load.audioSprite("audios",{
@@ -31,11 +27,14 @@ export default class Main extends Phaser.Scene {
                 purchase: {start:0.903,end:3.78},
                 purchase_fail: {start:3.78,end:3.879},
                 bag: {start:3.879,end:4.725},
+                coins:{start:4.725,end:5.153},
+                register_close:{start:5.153,end:6.371}
             }
         })
         // this.load.audio("music", "music.mp3");
     }
     create() {
+        this.registry.set({ day: 1, loop: null, flags: [], ashtray:null });
         // this.music = this.sound.add("music",{volume: 0.5});
         // this.music.loop = true;
         // this.music.play();
@@ -45,36 +44,47 @@ export default class Main extends Phaser.Scene {
         this.initShelf();
         this.cashRegister = new CashRegister(this);
         this.initCounterItems();
+        this.money = this.add.image(360, 435, "items", "money").setOrigin(0).setVisible(false);
+        this.moneyText = this.add.text(390,414,"200",{fontSize:"18px",backgroundColor:"black"}).setOrigin(0.5);
         this.bag = new Bag(this);
+
         this.speechbox = new SpeechBox(this);
         new SoundButton(this);
-        setTimeout(()=>this.startNextLoop(),500);
+        setTimeout(()=>this.startNextLoop('st0'),500);
     }
-    startNextLoop(){
-        this.gameState.loop++;
-        this.loopdata = data[this.gameState.loop];
-        this.cashRegister.setOrder(this.loopdata.order);
+    startNextLoop(key){
+        this.registry.set('loop',key);
+        this.loopdata = data.find(d=>d.key===key);
+        this.cashRegister.setOrder(this.loopdata.order,this.loopdata.money);
+        this.bag.setVisible(true);
         this.frame.resetCharacters(this.loopdata.characters);
-        let dk = "entry";
-        console.log(this.gameState.flags)
-        Object.keys(this.gameState.flags).forEach(ek => {
-            if (this.gameState.flags[ek] && this.loopdata.dialogues[`entry_${ek}`]) {
-                dk = `entry_${ek}`;
+        this.getFlaggedDialogue("entry");
+    }
+    getFlaggedDialogue(dk) {
+        this.registry.get('flags').forEach(ek => {
+            if (this.loopdata.dialogues[`${dk}_${ek}`]) {
+                dk = `${dk}_${ek}`;
             }
         });
         this.trigger(dk);
-
     }
     trigger(eventKey) {
-        console.log(eventKey);
+        console.log(eventKey,this.registry.get('flags'));
         if (this.loopdata.dialogues[eventKey]) {
             this.frame.startDialogue(this.loopdata.dialogues[eventKey],eventKey)
         }
-        if (eventKey === "checkout") {
+        if (eventKey === "paying") {
             this.frame.showAskButton(false);
+            this.bag.setVisible(false);
+            this.money.setVisible(true);
+            this.moneyText.setText(this.loopdata.money).setVisible(true);
+        }
+        if (eventKey === "checkout") {
+            this.money.setVisible(false);
+            this.moneyText.setVisible(false);
         }
         if (eventKey === "loop_end") {
-            this.startNextLoop();
+            this.startNextLoop(this.loopdata.next);
         }
     }
     initNewspapers(){
@@ -118,12 +128,13 @@ export default class Main extends Phaser.Scene {
         this.shelfCont.add(this.add.text(400, 52, rest.morleyt, ts));
     }
     initCounterItems(){
+        this.add.image(111, 408, "items", "ashtray").setOrigin(0);
         const rest = Object.fromEntries(products.filter(p=>p.counter===true).map(p=>[p.key,p.price]));
         const is = [
             { key: "pipes", x: 0, y: 353, priceX: 50, priceY: 450 },
             { key: "papirky", x: 0, y: 315, priceX: 15, priceY: 330 },
             { key: "cigars", x: 55, y: 288, priceX: 75, priceY: 350 },
-            { key: "ashtray", x: 111, y: 408, priceX: 140, priceY: 454 },
+            { key: "ashtray", x: 111, y: 395, priceX: 140, priceY: 460 },
             { key: "lightersl", x: 505, y: 135, priceX: 525, priceY: 225 },
             { key: "lightersr", x: 562, y: 135, priceX: 570, priceY: 225 },
             { key: "matches", x: 458, y: 195, priceX: 475, priceY: 230 },
@@ -152,10 +163,12 @@ export default class Main extends Phaser.Scene {
             const desc = products.find(p=>p.key===el.frame.name)?.desc;
             if (!isDragging&&desc) {
                 if (desc) {
-                    this.speechbox.run(desc,el.frame.name==='news'&&[
+                    this.speechbox.setOverlay(false);
+                    this.speechbox.setName("Gail");
+                    this.speechbox.run(desc,el.frame.name==='news'?[
                         {text:"Read latest news"},
                         {text:"Nevermind"}
-                    ]);
+                    ]:undefined,()=>{this.speechbox.setOverlay(true)});
                 }
             }
         });
@@ -184,7 +197,7 @@ export default class Main extends Phaser.Scene {
             el.setAlpha(1); 
             let bagBounds = this.bag.getBounds();
             let itemBounds = copy.getBounds();
-            if (Phaser.Geom.Intersects.RectangleToRectangle(itemBounds, bagBounds)) {
+            if (this.bag.visible&&Phaser.Geom.Intersects.RectangleToRectangle(itemBounds, bagBounds)) {
                 this.bag.addToBag(el.frame.name)
             }
             copy.destroy();

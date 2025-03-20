@@ -27,7 +27,13 @@
         { "filename": "cig5", "frame": { "x": 698, "y": 209, "w": 49, "h": 104 } },
         { "filename": "ash", "frame": { "x": 640, "y": 313, "w": 50, "h": 50 } },
         { "filename": "match1", "frame": { "x": 710, "y": 0, "w": 53, "h": 161 } },
-        { "filename": "match2", "frame": { "x": 747, "y": 200, "w": 27, "h": 179 } }
+        { "filename": "match2", "frame": { "x": 747, "y": 200, "w": 27, "h": 179 } },
+        { "filename": "money", "frame": { "x": 323, "y": 168, "w": 77, "h": 28 } },
+        { "filename": "money1", "frame": { "x": 690, "y": 313, "w": 25, "h": 25 } },
+        { "filename": "money5", "frame": { "x": 715, "y": 313, "w": 25, "h": 25 } },
+        { "filename": "money10", "frame": { "x": 690, "y": 338, "w": 25, "h": 25 } },
+        { "filename": "money50", "frame": { "x": 705, "y": 161, "w": 36, "h": 32 } },
+        { "filename": "money100", "frame": { "x": 741, "y": 161, "w": 36, "h": 32 } }
     ],
     "characters": [
         { "filename": "felix", "frame": { "x": 0, "y": 0, "w": 272, "h": 441 } },

@@ -9,10 +9,10 @@ export default class CashRegister {
 
         this.total = 0;
         this.pressed = {1:null,10:null,100:null};
+        this.returning = {1:0,5:0,10:0,50:0,100:0};
+        this.moneyGiven = null;
 
         this.body = this.scene.add.image(this.x-6, this.y-37, "items", "register_body").setOrigin(0).setInteractive();
-
-        this.suplik = this.scene.add.image(this.x, this.y+this.height+2, "items", "register_suplik").setOrigin(0,1);
 
         this.display = this.scene.add.text(this.x+this.width-25, this.y, '0', {
             fontSize: '16px',
@@ -20,6 +20,7 @@ export default class CashRegister {
         }).setOrigin(1);
         this.createButtons();
         this.createLever();
+        this.createSuplik();
 
         this.order = [];
     }
@@ -134,7 +135,42 @@ export default class CashRegister {
             }
         });
     }
-    setOrder(orderArr){
+    createSuplik(){
+        this.suplik = this.scene.add.image(this.x+85, this.y+this.height+2, "items", "register_suplik").setOrigin(0.5,1);
+        this.changePanel = this.scene.add.group();
+        this.changePanel.add(this.scene.add.rectangle(this.x,this.y, this.width+20, this.height, 0x000000, 0).setOrigin(0, 0).setInteractive());
+        this.changePanel.add(this.scene.add.panel(this.x,this.y+20).setSize(4,3));
+        this.changeBtn = this.scene.add.text(this.x+this.width-45, this.y+this.height-75, "OK").setInteractive({cursor:"pointer"});
+        this.changeBtn.on('pointerdown', ()=>this.checkChange());
+        this.changePanel.add(this.changeBtn);
+        [1,5,10,50,100].forEach(i=>{
+            const ix = i<=10?(this.x+10):(this.x+75);
+            const iy = (i===1||i===50)?(this.y+35):i===10?(this.y+95):(this.y+65);
+            const icon = this.scene.add.image(ix, iy, "items", `money${i}`).setOrigin(0, 0);
+            const count = this.scene.add.text(ix+(i>=50?50:40),iy+5,"0");
+            const minus = this.scene.add.text(ix+(i>=50?38:28),iy+5,"-").setInteractive({cursor:"pointer"});
+            const updateCount = () => {
+                count.setText(this.returning[i]);
+                this.scene.sound.playAudioSprite('audios','coins');
+                if (this.changeBtn.style.color==='#ff0000') this.changeBtn.setColor("#ffffff");
+            }
+            minus.on('pointerdown', () => {
+                if (this.returning[i]===0) return;
+                this.returning[i]--;
+                updateCount();
+            });
+            const plus = this.scene.add.text(ix+(i>=50?62:52),iy+5,"+").setInteractive({cursor:"pointer"});
+            plus.on('pointerdown', () => {
+                if (this.returning[i]===99) return;
+                this.returning[i]++;
+                updateCount();
+            });
+            this.changePanel.addMultiple([icon,count,minus,plus]);
+        })
+        this.changePanel.setVisible(false);
+    }
+    setOrder(orderArr,payment){
+        this.moneyGiven = payment;
         this.order = orderArr.map(i=>{
             let [key,q] = i.includes('X')?i.split("X"):[i,1];
             return {key,quantity:parseInt(q,10)}
@@ -152,10 +188,24 @@ export default class CashRegister {
             return
         }
         this.scene.sound.playAudioSprite('audios','purchase');
-        this.scene.trigger("checkout");
-        this.resetInput(); 
-        this.order.length = 0;
-        this.scene.bag.empty();
+        this.scene.trigger("paying");
+        this.openSuplik();
+    }
+    checkChange(){
+        const expected = this.moneyGiven - this.price;
+        const given = Object.entries(this.returning).reduce((sum, [m, count]) => sum + (parseInt(m) * count), 0);
+        if (expected!==given) {
+            this.changeBtn.setColor('#ff0000');
+            this.scene.trigger("wrong_change_"+(given>expected?"over":"under"));
+        } else {
+            this.resetInput(); 
+            this.resetSuplik();
+            this.order.length = 0;
+            this.scene.bag.empty();
+            this.scene.time.delayedCall(100,()=>{
+                this.scene.trigger("checkout");
+            })
+        }
     }
     compare(){
         const bag = this.scene.bag.getAll();
@@ -171,5 +221,36 @@ export default class CashRegister {
         this.display.setColor('#ff0000');
         this.scene.sound.playAudioSprite('audios','purchase_fail');
         this.scene.trigger(e);
+    }
+    givesMoney(v){
+        this.moneyGiven = v;
+        this.openSuplik();
+    }
+    openSuplik(v=true){
+        this.scene.tweens.add({
+            targets: this.suplik,
+            y: v?this.y+this.height+20:this.y+this.height+2,
+            scale: v?1.1:1,
+            duration: 50,
+            ease: 'Power1'
+        });
+        this.changePanel.setVisible(v);
+        if (!v) {
+            this.scene.sound.playAudioSprite('audios','register_close');
+        }
+        return this
+    }
+    resetSuplik(){
+        this.returning = {1:0, 5:0, 10:0, 50:0, 100:0};
+        this.changePanel.getChildren().forEach(child => {
+            if (child.text) {
+                let textVal = parseInt(child.text);
+                if (!isNaN(textVal)) {
+                    child.setText("0"); 
+                }
+            }
+        });        
+        this.moneyGiven = null;
+        this.openSuplik(false);
     }
 }
