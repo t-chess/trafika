@@ -71,13 +71,13 @@
             ],
             "click":[
                 { "character": "Félix", "text": "...", "options": [
-                    { "text": "What was it you asked for?", "after": "response-continue","response":[{"character": "Félix", "text":"What, riddle too hard? It's just a newspaper and two packs of rolling papers.", "faces": {"felix":"heh"},"options":[
+                    { "text": "What was it you asked for?","response":[{"character": "Félix", "text":"What, riddle too hard? It's just a newspaper and two packs of rolling papers.", "faces": {"felix":"heh"},"options":[
                         {"text":"Sure"},
-                        { "text": "Why not just say it?", "after": "response-continue", "response": [{ "character": "Félix", "text": "Boring." }] },
+                        { "text": "Why not just say it?", "response": [{ "character": "Félix", "text": "Boring." }] },
                         {"text":"Mystery man"}
                     ]}]},
-                    { "text": "What happened to the photo studio?", "after": "response-continue", "response": [{ "character": "Félix", "text": "Guy packed up one night. Took the camera, the chemicals, left the smell behind." }, { "character": "Félix", "text": "Not many missed him. I heard he had a way of making people uncomfortable.", "options":[{ "text": "Sure did" },{ "text": "..."}] }] },
-                    { "text": "Did you know my mom?", "after": "response-continue", "response": [{ "character": "Félix", "text": "Not well. By the time I came back, she had already... found God. Poor guy." }, {"character": "Félix","text":"Spent most of her time between the church and the hospital, I guess. Didn't see her here much."}, { "character": "Félix", "text": "Honestly surprised she didn't sell the place and hand it to the church.", "options":[
+                    { "text": "What happened to the photo studio?", "response": [{ "character": "Félix", "text": "Guy packed up one night. Took the camera, the chemicals, left the smell behind." }, { "character": "Félix", "text": "Not many missed him. I heard he had a way of making people uncomfortable.", "options":[{ "text": "Sure did" },{ "text": "..."}] }] },
+                    { "text": "Did you know my mom?", "response": [{ "character": "Félix", "text": "Not well. By the time I came back, she had already... found God. Poor guy." }, {"character": "Félix","text":"Spent most of her time between the church and the hospital, I guess. Didn't see her here much."}, { "character": "Félix", "text": "Honestly surprised she didn't sell the place and hand it to the church.", "options":[
                         { "text": "She probably meant to"},
                         { "text": "Well, good for me"}] }] },
                     { "text": "..." }
@@ -104,25 +104,25 @@
                 { "character": "Father Isaac", "text": "And so the daughter returns to the house where her mother disappeared on purpose and called it grace." },
                 { "character": "Father Isaac", "text": "She meant well. Most pilgrims do." },
                 { "character": "Father Isaac", "text": "But the dust didn't forget you. And waits to see what you'll do differently.", "options": [
-                    { "text": "Hello to you too", "after": "continue"},
-                    { "text": "God bless, Father", "after": "continue"},
-                    { "text": "...", "after": "response-continue", "response": [{ "character": "Father Isaac", "text": "Silence is God's first language." }]}
+                    { "text": "Hello to you too"},
+                    { "text": "God bless, Father"},
+                    { "text": "...",  "response": [{ "character": "Father Isaac", "text": "Silence is God's first language." }]}
                 ]},
                 { "character": "Father Isaac", "text": "Mmm..." },
                 { "character": "Father Isaac", "text": "Today's paper and Fleuries, please. The mugwort blend, if the Lord still provides." }
             ],
             "click":[
                 { "character": "Father Isaac", "text": "...", "options": [
-                    { "text": "So what happened to the organ?", "after": "response-continue","response":[{"character": "Father Isaac", "text":"Organs are dramatic things. Full of held breath and pressure... too much of it, and even sacred things crack."},{"character": "Father Isaac", "text":"Thank God our good old repairman gets along with anything that's fallen out of tune. The organ is already in his care.", "options":[
-                        {"text":"Are you saying the organ had a breakdown?", "after": "response-continue","response":[{"character":"Father Isaac","text":"Like we all do. Nothing unholy about that."}]},
-                        {"text":"Who's the repairman?", "after": "response-continue","response":[{"character":"Father Isaac","text":"Who else but Yves? Luckily still with help from Pierrick, hanging... on beside him."}]},
-                        {"text":"Any plans for a temporary fix?", "after": "response-continue","response":[{"character":"Father Isaac","text":"You think it can't just be quiet for a while?","options":[
-                            {"text":"Silence is fine", "after": "response-continue","flag":"silence_ok","response":[{"character": "Father Isaac", "text":"Sometimes it is."}]},
-                            {"text":"People don't like silence", "after": "response-continue","flag":"silence_bad","response":[{"character": "Father Isaac", "text":"No. They don't."}]}
-                        ]}]}
-                    ]}]},
-                    { "text": "Your funeral speech - did you mean all of it?","after": "response-continue","response":[{"character": "Father Isaac", "text":"We build meaning like churches - beautiful, hollow, echoing the absence they were built around. What's missing is what makes it sacred. That's how eulogies work."},{"character": "Father Isaac", "text":"Your mom knew that better than anyone."},{"character": "Gail", "text":"Yeah. Got so enlightened her heart checked out."}, {"character": "Father Isaac", "text":"Well, some prayers answer themselves."}]},
-                    { "text": "Which holy blend are we burning today, Father?", "after": "response-continue","response":[{"character": "Father Isaac", "text":"Mugwort Fleuries. And the news. Let it be so."}]},
+                    { "text": "So what happened to the organ?", "response":[{"character": "Father Isaac", "text":"Organs are dramatic things. Full of held breath and pressure... too much of it, and even sacred things crack."},{"character": "Father Isaac", "text":"Thank God our good old repairman gets along with anything that's fallen out of tune. The organ is already in his care.", "options":[
+                        {"text":"Are you saying the organ had a breakdown?", "response":[{"character":"Father Isaac","text":"Like we all do. Nothing unholy about that."}], "after":"backtrack"},
+                        {"text":"Who's the repairman?", "response":[{"character":"Father Isaac","text":"Who else but Yves? Luckily still with help from Pierrick, hanging... on beside him."}], "after":"backtrack"},
+                        {"text":"Any plans for a temporary fix?", "response":[{"character":"Father Isaac","text":"You think it can't just be quiet for a while?","options":[
+                            {"text":"Silence is fine", "flag":"silence_ok","response":[{"character": "Father Isaac", "text":"Sometimes it is."}]},
+                            {"text":"People don't like silence", "flag":"silence_bad","response":[{"character": "Father Isaac", "text":"No. They don't."}]}
+                        ]}], "after":"backtrack"}
+                    ]}], "after":"backtrack"},
+                    { "text": "Your funeral speech - did you mean all of it?","response":[{"character": "Father Isaac", "text":"We build meaning like churches - beautiful, hollow, echoing the absence they were built around. What's missing is what makes it sacred. That's how eulogies work."},{"character": "Father Isaac", "text":"Your mom knew that better than anyone."},{"character": "Gail", "text":"Yeah. Got so enlightened her heart checked out."}, {"character": "Father Isaac", "text":"Well, some prayers answer themselves."}], "after":"backtrack"},
+                    { "text": "Which holy blend are we burning today, Father?", "response":[{"character": "Father Isaac", "text":"Mugwort Fleuries. And the news. Let it be so."}], "after":"backtrack"},
                     { "text": "..."}
                 ]}
             ],

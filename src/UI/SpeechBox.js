@@ -112,7 +112,7 @@ export default class SpeechBox extends Phaser.GameObjects.Container {
         playNext();
     }
     handleOption(selectedOption, playNext) {
-        if (!selectedOption || !selectedOption.after){
+        if (!selectedOption){
             playNext();
             return
         }
@@ -132,7 +132,11 @@ export default class SpeechBox extends Phaser.GameObjects.Container {
                 });
                 break;
             default:
-                playNext();
+                if (selectedOption.response) {
+                    this.playDialogSequence(selectedOption.response, playNext);
+                } else {
+                    playNext();
+                }
                 break;
         }
     }
