@@ -37,8 +37,13 @@
     ],
     "characters": [
         { "filename": "felix", "frame": { "x": 0, "y": 0, "w": 272, "h": 441 } },
+        { "filename": "felix_heh", "frame": { "x": 272, "y": 0, "w": 122, "h": 178 } },
+        { "filename": "felix_grr", "frame": { "x": 272, "y": 178, "w": 122, "h": 178 } },
+        { "filename": "yves", "frame": { "x": 394, "y": 0, "w": 190, "h": 406 } },
         { "filename": "pierrick", "frame": { "x": 0, "y": 441, "w": 254, "h": 407 } },
+        { "filename": "pierrick2", "frame": { "x": 254, "y": 441, "w": 254, "h": 407 } },
         { "filename": "raphael", "frame": { "x": 0, "y": 848, "w": 238, "h": 384 } },
-        { "filename": "mado", "frame": { "x": 254, "y": 441, "w": 205, "h": 367 } }
+        { "filename": "mado", "frame": { "x": 508, "y": 441, "w": 205, "h": 367 } },
+        { "filename": "mado_nurse", "frame": { "x": 508, "y": 441, "w": 205, "h": 367 } }
     ]
 }

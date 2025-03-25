@@ -8,7 +8,6 @@ export default class SpeechBox extends Phaser.GameObjects.Container {
         this.options = [];
 
         this.currentLines = 2;
-        this.maxCharsPerLine = 60;
 
         this.init();
         this.setVisible(false);
@@ -39,7 +38,7 @@ export default class SpeechBox extends Phaser.GameObjects.Container {
         this.add(this.nextBtn);
 
         for (let i = 0; i < this.maxOptions; i++) {
-            let optionPanel = this.scene.add.panel(600, -40, "sm").setSize(5, 2).setText("");
+            let optionPanel = this.scene.add.panel(600, -40, "sm").setSize(5, 2).setText("").setDirection('x');
             optionPanel.setVisible(false);
             this.options.push(optionPanel);
             this.add(optionPanel);
@@ -60,7 +59,26 @@ export default class SpeechBox extends Phaser.GameObjects.Container {
         }
     }
     updateBoxSize(text) {
-        const lines = Math.ceil(text.length / this.maxCharsPerLine) + 1;
+        // const lines = Math.ceil(text.length / this.maxCharsPerLine) + 1;
+        const wrapLimit = 58;
+        const words = text.split(/\s+/);
+        let lines = 1;
+        let currentLine = "";
+        for (let i = 0; i < words.length; i++) {
+            const word = words[i];
+            if (currentLine.length === 0) {
+                currentLine = word;
+            } else if ((currentLine.length + 1 + word.length) <= wrapLimit) {
+                currentLine += " " + word;
+            } else {
+                lines++;
+                currentLine = word;
+            }
+        }
+        if (currentLine.length > 0) {
+            lines++;
+        }
+        lines = Math.max(2, lines);
         if (lines !== this.currentLines) {
             this.currentLines = lines;
             this.box.setFrame(`speechbox${this.currentLines}`).setPosition(0, -this.currentLines * 20);

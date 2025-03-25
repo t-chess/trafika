@@ -8,6 +8,8 @@ export default class Bag extends Phaser.GameObjects.Image {
         this.on('pointerdown', () => {
             if (this.items.length) {
                 const q = this.items.reduce((acc, item) => acc + (item.quantity || 1), 0);
+                this.scene.speechbox.setOverlay(false);
+                this.scene.speechbox.setName("");
                 const textik = q+(q===1?" item ":" items ")+"in the bag. Empty the bag?"
                 this.scene.speechbox.playDialogSequence([{text:textik,options:[{text:"Yes",callback:()=>this.empty()},{text:"No"}]}])
             } else {

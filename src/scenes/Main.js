@@ -34,7 +34,7 @@ export default class Main extends Phaser.Scene {
         // this.load.audio("music", "music.mp3");
     }
     create() {
-        this.registry.set({ day: 1, loop: null, flags: [], ashtray:null });
+        this.registry.set({ day: 1, loop: null, flags: new Set(), ashtray:null });
         // this.music = this.sound.add("music",{volume: 0.5});
         // this.music.loop = true;
         // this.music.play();
@@ -48,31 +48,22 @@ export default class Main extends Phaser.Scene {
         this.moneyText = this.add.text(390,414,"200",{fontSize:"18px",backgroundColor:"black"}).setOrigin(0.5);
         this.bag = new Bag(this);
 
-        this.speechbox = new SpeechBox(this);
+        this.speechbox = new SpeechBox(this, undefined, 4);
         new SoundButton(this);
-        setTimeout(()=>this.startNextLoop('st0'),500);
+        setTimeout(()=>this.startNextLoop('isaac'),500);
     }
     startNextLoop(key){
         this.registry.set('loop',key);
-        this.loopdata = data.find(d=>d.key===key);
+        this.loopdata = data[key];
         this.cashRegister.setOrder(this.loopdata.order,this.loopdata.money);
         this.bag.setVisible(true);
-        this.frame.resetCharacters(this.loopdata.characters);
-        this.getFlaggedDialogue("entry");
+        this.frame.addCharacters(this.loopdata.characters);
+        this.trigger("entry");
     }
-    getFlaggedDialogue(dk) {
-        this.registry.get('flags').forEach(ek => {
-            if (this.loopdata.dialogues[`${dk}_${ek}`]) {
-                dk = `${dk}_${ek}`;
-            }
-        });
-        this.trigger(dk);
-    }
+    
     trigger(eventKey) {
         console.log(eventKey,this.registry.get('flags'));
-        if (this.loopdata.dialogues[eventKey]) {
-            this.frame.startDialogue(this.loopdata.dialogues[eventKey],eventKey)
-        }
+        this.frame.startDialogue(eventKey);
         if (eventKey === "paying") {
             this.frame.showAskButton(false);
             this.bag.setVisible(false);
@@ -84,11 +75,16 @@ export default class Main extends Phaser.Scene {
             this.moneyText.setVisible(false);
         }
         if (eventKey === "loop_end") {
-            this.startNextLoop(this.loopdata.next);
+            if (this.registry.get('loop')!=='st1') {
+                this.frame.hideCharacters();
+                this.startNextLoop(this.loopdata.next)
+            } else {
+                this.time.delayedCall(3000,()=>this.startNextLoop(this.loopdata.next))
+            }
         }
     }
     initNewspapers(){
-        this.initProduct(this.add.image(81, 50, "items", "news").setAngle(90).setFlipY(true).setOrigin(0));
+        this.initProduct(this.add.image(81, 80, "items", "news").setAngle(90).setFlipY(true).setOrigin(0));
         let price = products.find(p=>p.key==='news').price;
         this.add.text(10, 190, price, { fontSize: "12px", backgroundColor: "#fff", color: "#000" });
     }
@@ -164,9 +160,9 @@ export default class Main extends Phaser.Scene {
             if (!isDragging&&desc) {
                 if (desc) {
                     this.speechbox.setOverlay(false);
-                    this.speechbox.setName("Gail");
+                    this.speechbox.setName(el.frame.name==='news'?null:"Gail");
                     this.speechbox.run(desc,el.frame.name==='news'?[
-                        {text:"Read latest news"},
+                        {text:"Take a look", callback: ()=>this.readNews()},
                         {text:"Nevermind"}
                     ]:undefined,()=>{this.speechbox.setOverlay(true)});
                 }
@@ -206,4 +202,40 @@ export default class Main extends Phaser.Scene {
         });
         return el
     }
+    readNews() {
+        const categories = Object.keys(data.news);
+        const previous = [];
+        const openCategoryList = () => {
+            const options = categories.map(cat => ({
+                text: cat,
+                callback: () => {
+                    previous.push(openCategoryList);
+                    openArticleList(cat);
+                }
+            }));
+            options.push({ text: "Back", callback: () => this.speechbox.setOverlay(true) });
+            this.speechbox.run("...", options);
+        };
+        const openArticleList = (category) => {
+            const articles = data.news[category];
+            const headlines = Object.keys(articles);
+            const options = headlines.map(title => ({
+                text: title,
+                callback: () => {
+                    previous.push(() => openArticleList(category));
+                    openArticleContent(category, title);
+                }
+            }));
+            options.push({ text: "Back", callback: () => previous.pop()() });
+            this.speechbox.run(category, options);
+        };
+        const openArticleContent = (category, title) => {
+            const dialog = data.news[category][title].map(text => ({ character: null, text }));
+            this.speechbox.playDialogSequence(dialog, () => {
+                previous.pop()();
+            });
+        };
+
+        openCategoryList();
+    }    
 }

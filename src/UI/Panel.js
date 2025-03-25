@@ -8,6 +8,7 @@ export default class Panel extends Phaser.GameObjects.Container {
         this.fontSize = fontSize;
         this.inverted = false;
         this.static = false;
+        this.direction = 'y';
         this.clickable = false;
 
         scene.add.existing(this);
@@ -101,11 +102,15 @@ export default class Panel extends Phaser.GameObjects.Container {
         
         this.on("pointerover", () => {
             this.scene.input.setDefaultCursor("pointer");
-            if (!this.static) this.setPosition(this.x, this.y - 1);
+            if (!this.static) {
+                this.direction==='y'?this.setPosition(this.x, this.y - 1):this.setPosition(this.x-1, this.y);
+            }
         });
         this.on("pointerout", () => {
             this.scene.input.setDefaultCursor("default"); 
-            if (!this.static) this.setPosition(this.x, this.y + 1);
+            if (!this.static) {
+                this.direction==='y'?this.setPosition(this.x, this.y + 1):this.setPosition(this.x+1, this.y);
+            }
         });
         const f = () => {
             this.scene.sound.play("ui_click");
@@ -139,6 +144,10 @@ export default class Panel extends Phaser.GameObjects.Container {
     setStatic(v) {
         this.static = v;
         return this;
+    }
+    setDirection(v){
+        this.direction = v;
+        return this
     }
     updateClickArea() {
         const hit = new Phaser.Geom.Rectangle(0, 0, this.width * this.tileSize, this.height * this.tileSize);
