@@ -50,7 +50,7 @@ export default class Main extends Phaser.Scene {
 
         this.speechbox = new SpeechBox(this, undefined, 4);
         new SoundButton(this);
-        setTimeout(()=>this.startNextLoop('isaac'),500);
+        setTimeout(()=>this.startNextLoop('mado'),500);
     }
     startNextLoop(key){
         this.registry.set('loop',key);
@@ -58,6 +58,7 @@ export default class Main extends Phaser.Scene {
         this.cashRegister.setOrder(this.loopdata.order,this.loopdata.money);
         this.bag.setVisible(true);
         this.frame.addCharacters(this.loopdata.characters);
+        this.onceClicked = new Set();
         this.trigger("entry");
     }
     
@@ -77,9 +78,9 @@ export default class Main extends Phaser.Scene {
         if (eventKey === "loop_end") {
             if (this.registry.get('loop')!=='st1') {
                 this.frame.hideCharacters();
-                this.startNextLoop(this.loopdata.next)
-            } else {
                 this.time.delayedCall(3000,()=>this.startNextLoop(this.loopdata.next))
+            } else {
+                this.startNextLoop(this.loopdata.next)
             }
         }
     }
@@ -114,8 +115,8 @@ export default class Main extends Phaser.Scene {
         const rest = Object.fromEntries(products.filter(p=>p.shelf===true).map(p=>[p.key,p.price]));
         this.shelfCont.add(this.initProduct(this.add.image(430, -2, "items", "larissa").setOrigin(0),5));
         this.shelfCont.add(this.add.text(444, 54, rest.larissa, ts));
-        this.shelfCont.add(this.initProduct(this.add.image(525, -20, "items", "nicot").setOrigin(0),12));
-        this.shelfCont.add(this.add.text(540, 54, rest.nicot, ts));
+        this.shelfCont.add(this.initProduct(this.add.image(525, -20, "items", "over").setOrigin(0),12));
+        this.shelfCont.add(this.add.text(540, 54, rest.over, ts));
         this.shelfCont.add(this.initProduct(this.add.image(484, -13, "items", "jct").setOrigin(0),5));
         this.shelfCont.add(this.add.text(503, 54, rest.jct, ts));
         this.shelfCont.add(this.initProduct(this.add.image(387, 20, "items", "bruyere").setOrigin(0),5));

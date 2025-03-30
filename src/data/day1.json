@@ -2,7 +2,7 @@
     "news": {
         "Town Happenings": {
             "Seal Pupping Season Begins": ["The annual gray seal pupping season has officially begun along the Larris coastline, with early sightings reported near the eastern cliffs and the edge of the moors.","Residents are reminded not to approach the colony. Disturbing the animals can result in injury or fines.","\"They're very round this year,\" said a volunteer with a notebook full of seal sketches.","Binoculars are available for public use at the harbor office. One pair has gone missing already."],
-            "Organ Out of Order":["Fr. Isaac has announced that the organ at St. Dymphne's has gone silent.", "It always sounded a little haunted, but everyone agrees - that's what made it ours.", "A donation jar for repairs now sits between the donation box (the old one) and the neon crucifix."]
+            "Organ Out of Order":["Fr. Isaac has announced that the organ at St. Dymphne's has gone silent.", "It always sounded a little haunted, but everyone agrees - that's what made it ours.", "A donation jar for repairs now sits between the donation box (the old one) and the crucifix."]
         },
         "Notices & Ads": {
             "Tired of Small-Town Tides?":["Montpensier Fisheries Ltd. is recruiting seasonal crew for city trawlers. Weekly pay. Apply at the harbor office before Thursday."],
@@ -11,7 +11,7 @@
         },
         "Letters & Miscellany": {
             "Weather notes":["??????"],
-            "Recipe of the Week":["crying"]
+            "Recipe of the Week":["aaaaaaaaaablya"]
         }
     },
     "st1":{
@@ -29,16 +29,16 @@
                 { "character": "Félix", "text": "Let's try it out. Sell me a tin of Morley and three boxes of matches.", "faces": {"felix":"heh"} }
             ],
             "wrong_items": [
-                { "character": "Félix", "text": "That's not what I asked for. Try again.", "flag":"st1_mistake", "onComplete":"click", "faces": {"felix":"grr"} }
+                { "character": "Félix", "text": "That's not what I asked for. Try again.", "flag":"st1", "onComplete":"click", "faces": {"felix":"grr"} }
             ],
             "wrong_price": [
-                { "character": "Félix", "text": "Right stuff, wrong number. Do the math again.", "flag":"st1_mistake", "faces": {"felix":"grr"} }
+                { "character": "Félix", "text": "Right stuff, wrong number. Do the math again.", "flag":"st1", "faces": {"felix":"grr"} }
             ],
             "click":[
                 { "character": "Félix", "text": "A tin of Morley tobacco, three boxes of matches. In the bag, on the register, then the lever."}
             ],
             "paying":[
-                { "character": "Félix", "text": "Here's 20. Let's see if you can count."}
+                { "character": "Félix", "text": "Here's 300. Let's see if you can count."}
             ],
             "wrong_change_under":[
                 { "character": "Félix", "text": "Careful - short-changing is a skill. You clearly don't have it yet."}
@@ -49,7 +49,7 @@
             "checkout":[
                 { "character": "Félix", "text": "See? Easy enough. Now let's try one more time.", "faces": {"felix":"heh"}}
             ],
-            "checkout_st1_mistake":[
+            "checkout_st1":[
                 { "character": "Félix", "text": "Okay, you figured it out, eventually. Let's try again."}
             ]
         },
@@ -66,20 +66,20 @@
             "wrong_items": [
                 { "character": "Félix", "text": "Nope. That's not it.", "faces": {"felix":"grr"} }
             ],
-            "wrong_items_st1_mistake": [
+            "wrong_items_st1": [
                 { "character": "Félix", "text": "That's not what I asked for. Again.", "faces": {"felix":"grr"} }
             ],
             "click":[
                 { "character": "Félix", "text": "...", "options": [
                     { "text": "What was it you asked for?","response":[{"character": "Félix", "text":"What, riddle too hard? It's just a newspaper and two packs of rolling papers.", "faces": {"felix":"heh"},"options":[
-                        {"text":"Sure"},
-                        { "text": "Why not just say it?", "response": [{ "character": "Félix", "text": "Boring." }] },
-                        {"text":"Mystery man"}
+                        {"text":"Sure","event":"click"},
+                        { "text": "Why not just say it?", "response": [{ "character": "Félix", "text": "Boring.","onComplete":"click" }] },
+                        {"text":"Mystery man","event":"click"}
                     ]}]},
-                    { "text": "What happened to the photo studio?", "response": [{ "character": "Félix", "text": "Guy packed up one night. Took the camera, the chemicals, left the smell behind." }, { "character": "Félix", "text": "Not many missed him. I heard he had a way of making people uncomfortable.", "options":[{ "text": "Sure did" },{ "text": "..."}] }] },
+                    { "text": "What happened to the photo studio?", "response": [{ "character": "Félix", "text": "Guy packed up one night. Took the camera, the chemicals, left the smell behind." }, { "character": "Félix", "text": "Not many missed him. I heard he had a way of making people uncomfortable.", "options":[{ "text": "Sure did","event":"click" },{ "text": "...","event":"click"}] }] },
                     { "text": "Did you know my mom?", "response": [{ "character": "Félix", "text": "Not well. By the time I came back, she had already... found God. Poor guy." }, {"character": "Félix","text":"Spent most of her time between the church and the hospital, I guess. Didn't see her here much."}, { "character": "Félix", "text": "Honestly surprised she didn't sell the place and hand it to the church.", "options":[
-                        { "text": "She probably meant to"},
-                        { "text": "Well, good for me"}] }] },
+                        { "text": "She probably meant to","response":[{"character":"Félix","text":"Or maybe you just need her to be the villain. Easier that way.", "onComplete":"click"}]},
+                        { "text": "Well, good for me","response":[{"character":"Félix","text":"Praise be to property.", "onComplete":"click"}]}] }] },
                     { "text": "..." }
                 ]}
             ],
@@ -89,21 +89,51 @@
             "checkout":[
                 { "character": "Félix", "text": "Well done. That's the job - just sit here, sell people their little habits and don't let the register jam. If it does, hit it."},   
                 { "character": "Félix", "text": "Read the paper if you want. Just don't take it too seriously."},                
-                { "character": "Félix", "text": "Oh, and some people come in more for the conversation than the cigarettes. Whether you listen or not is up to you." },
+                { "character": "Félix", "text": "Some people come in more for the conversation than the cigarettes. Whether you listen or not is up to you." },
                 { "character": "Félix", "text": "That's it. I vanish now. Later, kiddo." }
             ]
         },
-        "next": "isaac" 
+        "next": "fisherman" 
+    },
+    "fisherman":{
+        "order":["jcrX2", "lightersl"],
+        "money":1000,
+        "dialogues":{
+            "entry":[
+                { "character": "Fisherman", "text": "Afternoon." },
+                { "character": "Fisherman", "text": "Two packs of JCs. And a lighter, the kind I won't miss if it goes overboard." }
+            ],
+            "click":[
+                {"character": "Fisherman", "text": "...", "options": [
+                    {"text": "Back from the big metal boats?", "response": [{ "character": "Fisherman", "text": "Yeah. Just stepped off." },{ "character": "Fisherman", "text": "Good pay. Bad sleep." },{ "character": "Fisherman", "text": "...Not sure it was worth what it did to my head." },{ "character": "Fisherman", "text": "Trying not to let it make me all stiff inside. Better to stay soft, like...", "options": [
+                        {"text": "a sad little jellyfish?", "flag":"jellyfish","response": [{ "character": "Fisherman", "text": "Hey, jellyfish don't sink. They just keep floating. I'll take it.", "onComplete":"click" }]},
+                        {"text": "a cool sea glass?", "flag":"seaglass","response": [{ "character": "Fisherman", "text": "Yeah. Been through worse, came out smooth. That's the hope.", "onComplete":"click" }]}
+                    ]}],"once":true},
+                    {"text":"What was it again?", "response": [{ "character": "Fisherman", "text": "Two packs of JC reds. And any cheap, basic lighter."}]},
+                    { "text": "..." }
+                ]}
+            ],
+            "wrong_items": [{ "character": "Fisherman", "text": "Two packs of JC reds. And any cheap, basic lighter." }],
+            "wrong_price": [{ "character": "Fisherman", "text": "That number's fishy." }],
+            "checkout":[
+                { "character": "Fisherman", "text": "Thanks." }
+            ],
+            "checkout_jellyfish":[
+                { "character": "Fisherman", "text": "Thanks." },{"character": "Fisherman", "text": "I ate jellyfish as a kid. Thought it was pudding." },{ "character": "Fisherman", "text": "Wasn't." }
+            ],
+            "checkout_seaglass":[
+                { "character": "Fisherman", "text": "Thanks." },{"character": "Fisherman", "text": "I tasted sea glass once. Thought it was candy." },{ "character": "Fisherman", "text": "Wasn't." }
+            ]
+        },
+        "next":"isaac"
     },
     "isaac":{
-        "characters":[{"key":"felix"}],
         "order": ["news","fleuriesy"],
         "money":180,
         "dialogues": {
             "entry":[
-                { "character": "Father Isaac", "text": "And so the daughter returns to the house where her mother disappeared on purpose and called it grace." },
-                { "character": "Father Isaac", "text": "She meant well. Most pilgrims do." },
-                { "character": "Father Isaac", "text": "But the dust didn't forget you. And waits to see what you'll do differently.", "options": [
+                { "character": "Father Isaac", "text": "And so the daughter returns home. To the dust her mother called holy, and the stillness she mistook for peace." },
+                { "character": "Father Isaac", "text": "Step careful - it waits to see what you'll do differently.", "options": [
                     { "text": "Hello to you too"},
                     { "text": "God bless, Father"},
                     { "text": "...",  "response": [{ "character": "Father Isaac", "text": "Silence is God's first language." }]}
@@ -113,25 +143,125 @@
             ],
             "click":[
                 { "character": "Father Isaac", "text": "...", "options": [
-                    { "text": "So what happened to the organ?", "response":[{"character": "Father Isaac", "text":"Organs are dramatic things. Full of held breath and pressure... too much of it, and even sacred things crack."},{"character": "Father Isaac", "text":"Thank God our good old repairman gets along with anything that's fallen out of tune. The organ is already in his care.", "options":[
-                        {"text":"Are you saying the organ had a breakdown?", "response":[{"character":"Father Isaac","text":"Like we all do. Nothing unholy about that."}], "after":"backtrack"},
-                        {"text":"Who's the repairman?", "response":[{"character":"Father Isaac","text":"Who else but Yves? Luckily still with help from Pierrick, hanging... on beside him."}], "after":"backtrack"},
-                        {"text":"Any plans for a temporary fix?", "response":[{"character":"Father Isaac","text":"You think it can't just be quiet for a while?","options":[
-                            {"text":"Silence is fine", "flag":"silence_ok","response":[{"character": "Father Isaac", "text":"Sometimes it is."}]},
-                            {"text":"People don't like silence", "flag":"silence_bad","response":[{"character": "Father Isaac", "text":"No. They don't."}]}
-                        ]}], "after":"backtrack"}
-                    ]}], "after":"backtrack"},
-                    { "text": "Your funeral speech - did you mean all of it?","response":[{"character": "Father Isaac", "text":"We build meaning like churches - beautiful, hollow, echoing the absence they were built around. What's missing is what makes it sacred. That's how eulogies work."},{"character": "Father Isaac", "text":"Your mom knew that better than anyone."},{"character": "Gail", "text":"Yeah. Got so enlightened her heart checked out."}, {"character": "Father Isaac", "text":"Well, some prayers answer themselves."}], "after":"backtrack"},
-                    { "text": "Which holy blend are we burning today, Father?", "response":[{"character": "Father Isaac", "text":"Mugwort Fleuries. And the news. Let it be so."}], "after":"backtrack"},
+                    { "text": "So what happened to the organ?", "response":[{"character": "Father Isaac", "text":"Organs are dramatic things. Full of held breath and pressure... too much of it, and even sacred things crack."},{"character": "Father Isaac", "text":"Thank God our good old repairman gets along with anything that's fallen out of tune.","onComplete":"organ"}] },
+                    { "text": "Your funeral speech - did you mean all of it?","response":[{"character": "Father Isaac", "text":"We build meaning like churches - beautiful, hollow, echoing the absence they were built around."},{"character": "Father Isaac", "text":"What's missing is what makes it sacred. That's how eulogies work."},{"character": "Father Isaac", "text":"Your mom knew that better than anyone."},{"character": "Gail", "text":"Yeah. Got so enlightened her heart checked out."}, {"character": "Father Isaac", "text":"Well, some prayers answer themselves.","onComplete":"click"}] },
+                    { "text": "Which holy blend are we burning today, Father?", "response":[{"character": "Father Isaac", "text":"Mugwort Fleuries. And the news. Let it be so.","onComplete":"click"}] },
                     { "text": "..."}
                 ]}
             ],
+            "organ": [
+                {"character": "Father Isaac", "text":"The organ is already in his care.", "options":[
+                    {"text":"Are you saying the organ had a breakdown?", "response":[{"character":"Father Isaac","text":"Like we all do. Nothing unholy about that.","onComplete":"organ"}] },
+                    {"text":"Who's the repairman?", "response":[{"character":"Father Isaac","text":"Who else but Yves? Luckily still with help from Pierrick, hanging... on beside him.","onComplete":"organ"}] },
+                    {"text":"Any plans for a temporary fix?", "event":"toFix", "once":true },
+                    {"text":"...","event":"click"}
+                ]}
+            ],
+            "toFix": [{"character":"Father Isaac","text":"You think it can't just be quiet for a while?","options":[
+                {"text":"Church hits different with a soundtrack", "flag":"silence_bad","response":[{"character": "Father Isaac", "text":"Mhm. God has a taste in music.","onComplete":"organ"}]},
+                {"text":"Silence is fine", "flag":"silence_ok","response":[{"character": "Father Isaac", "text":"Sometimes it is.","onComplete":"organ"}]}
+            ]}],
             "wrong_items": [
                 { "character": "Father Isaac", "text": "We all reach for the wrong thing sometimes." }
             ],
             "checkout":[
-                { "character": "Father Isaac", "text": "Much obliged." },{ "character": "Father Isaac", "text": "Funny thing -  I used to send the deacon for these. But he quit smoking, and I lost my excuse to avoid the walk." },{ "character": "Father Isaac", "text": "But today it brought me to you, so I'm calling it a good walk." },{ "character": "Father Isaac", "text": "No more words from me. Be strong and of good courage." }
+                { "character": "Father Isaac", "text": "Much obliged." },{ "character": "Father Isaac", "text": "Funny thing - I used to send the deacon for these. But he quit smoking, and I lost my excuse to avoid the walk." },{ "character": "Father Isaac", "text": "But today it brought me to you, so I'm calling it a good walk." },{ "character": "Father Isaac", "text": "No more words from me. Be strong and of good courage." }
             ]
-        }
+        },
+        "next": "sylvie" 
+    },
+    "sylvie":{
+        "order":["news"],
+        "money":500,
+        "dialogues":{
+            "entry":[
+                {"character":"Sylvie", "text":"Oh, Gail? You work here now?","options":[{ "text": "Just for today","flag":"today" },{ "text": "I don't know. Maybe", "flag":"maybe" }]},
+                {"character":"Sylvie", "text":"Okay..."},
+                {"character":"Sylvie", "text":"Sorry about your mom."},
+                {"character":"Sylvie", "text":"..."},
+                {"character":"Sylvie", "text":"Yeah. Just the paper, please."}
+            ],
+            "click": [
+                { "character": "Sylvie", "text": "So, how've things been going? Shit, I mean... sorry. You know what I meant.", "flag":"sylvie", "options": [
+                    {"text":"Could be worse", "response":[{"character":"Sylvie", "text":"...Right. Alright."},{"character":"Sylvie", "text":"The seals are back already, did you hear? Érica's over the moon, of course."}], "flag":"sylvie_good"},
+                    {"text":"Could be better", "response":[{"character":"Sylvie", "text":"...Oh. Well."},{"character":"Sylvie", "text":"Érica said the seals are early this year. She thinks maybe they're confused."}], "flag":"sylvie_bad"}
+                ]},
+                {"character": "Sylvie", "text":"...", "onComplete":"click_sylvie"}
+            ],
+            "click_sylvie": [{ "character": "Sylvie", "text": "Just today's paper for me, please."}],
+            "wrong_items":[{ "character": "Sylvie", "text": "Just today's paper, please."}],
+            "wrong_price":[{ "character": "Sylvie", "text": "Take your time."}],
+            "wrong_change":[{ "character": "Sylvie", "text": "Take your time."}],
+            "checkout":[{ "character": "Sylvie", "text": "Thanks. Okay then. Take care."}]
+        },
+        "next":"sisters"
+    },
+    "sisters": {
+        "characters":[{"key":"babette"},{"key":"lucie"}],
+        "order": ["cigars"],
+        "money":200,
+        "dialogues":{
+            "entry":[
+                { "character": "Nun", "text": "Alright, Babette. What are we in the mood for today?" },
+                { "character": "Sister Babette", "text": "Mm... the pretty Fleuries with the rose petals?" },
+                { "character": "Nun", "text": "Tempting. But we just spent two hours scraping wax off pews. I think we deserve a little sin." },
+                { "character": "Sister Babette", "text": "You're thinking what I'm thinking, aren't you?" },
+                { "character": "Nun", "text": "..." },
+                { "character": "Sister Babette", "text": "One cigar, please. We've earned it." }
+            ],
+            "click": [
+                { "character": "Nun", "text": "...they've got it all draped up like a dead body." },
+                { "character": "Sister Babette", "text": "Don't say that, Lucie. I'll be very sad if our dear organ's really gone for good." },
+                { "character": "Sister Lucie", "text": "I saw the music fellas in there earlier. They'd already pulled out some of the bent pipes." },
+                { "character": "Sister Babette", "text": "Oh, so they already let Noose Boy out of the hospital?" },
+                { "character": "Sister Lucie", "text": "Babette." },
+                { "character": "Sister Babette", "text": "I'm just saying. He's sweet, but he looks like he'd pass out halfway through a rosary.", "onComplete":"click2" }
+            ],
+            "click2":[
+                {"text":"...","options":[
+                    {"text":"Remind me what you're getting?", "response":[{"character":"Sister Babette", "text":"Just one cigar, dear."},{"character":"Sister Lucie", "text":"We only smoke together. That makes it a ritual, not a habit."}]},
+                    { "text": "..."}
+                ]}
+            ],
+            "wrong_items": [
+                { "character": "Sister Babette", "text": "Try again. We're picky sinners." }
+            ],
+            "wrong_price": [
+                {"character":"Sister Lucie", "text":"Hmm. That's not what it cost last time."}
+            ],
+            "checkout" : [
+                { "character": "Sister Lucie", "text": "Thank you, dear. We'll take this, say our evening prayer and sit under the sky a bit. Let the day settle.", "onComplete":"chckt"}
+            ],
+            "chckt":[
+                { "character": "Sister Babette", "text": "And hopefully that organ doesn't scream again tonight.","options": [
+                    { "text": "It screamed?", "response": [{ "character": "Sister Babette", "text": "Or cried. Like a child.","onComplete":"chckt" }]},
+                    { "text": "What will you pray for?", "response": [{ "character": "Sister Lucie", "text": "Hmm. Patience. And patients.","onComplete":"chckt" }]},
+                    { "text": "Have a quiet evening, sisters", "response": [{ "character": "Sister Lucie", "text": "Blessings, dear.","onComplete":"loop_end"}]}
+                ]}
+            ]
+        },
+        "next":"yves"
+    },
+    "yves":{
+        "next":"mado"
+    },
+    "mado":{
+        "characters":[{"key":"mado"}],
+        "order":["morleyb"],
+        "money":200,
+        "dialogues":{
+            "entry":[{ "character": "???", "text": "...You're not Félix." },{"character":"???","text":"Nevermind. Hi. Menthol Morleys, please."}],
+            "click":[{"character":"???","text":"...can you be faster, please?", "options":[
+                {"text":"Sure. No need to show your teeth","response":[{"character":"???","text":"What? Why did you say that?"},{"character":"???","text":"...Forget it. Sorry. Long shift ahead.", "onComplete":"click","flag":"teeth"}]},
+                {"text":"Hm? Menthol what?", "response":[{"character":"???","text":"Menthol Morleys. I did say it. Clearly.", "onComplete":"click"}]},
+                {"text":"..."}
+            ]}],
+            "wrong_items":[{"character":"???","text":"I asked for Menthol Morleys. Not... whatever that is."}],
+            "wrong_price":[{"character":"???","text":"It can't be that hard."}],
+            "wrong_change":[{"character":"???","text":"That's wrong."}],
+            "checkout":[{"character":"???","text":"Thanks. Also, could I..."},{"character":"???","text":"...No. Doesn't matter. Forget it."}],
+            "teeth_checkout":[{"character":"???","text":"Thanks. Goodbye."},{"character":"???","text":"That was a weird thing to say, by the way."}]
+        },
+        "next":"felix"
     }
 }

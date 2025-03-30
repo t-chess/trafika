@@ -59,9 +59,9 @@
         "shelf":true
     },
     {
-        "key":"nicot",
+        "key":"over",
         "price":220,
-        "desc":"Nicot rolling tobacco. Slightly better quality, slightly moodier vibe, still just tobacco.",
+        "desc":"Over rolling tobacco. Slightly better quality, slightly moodier vibe, still just tobacco.",
         "shelf":true
     },
     {
@@ -96,7 +96,7 @@
     },
     {
         "key":"cigars",
-        "price":150,
+        "price":159,
         "desc":"A cigarette says nothing. A cigar tries to say something. Not sure what.",
         "counter":true
     },

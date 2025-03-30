@@ -11,7 +11,7 @@
         { "filename": "lightersr", "frame": { "x": 233, "y": 81, "w": 40, "h": 111 } },
         { "filename": "larissa", "frame": { "x": 273, "y": 81, "w": 50, "h": 62 } },
         { "filename": "matches", "frame": { "x": 273, "y": 143, "w": 48, "h": 49 } },
-        { "filename": "nicot", "frame": { "x": 323, "y": 81, "w": 64, "h": 87 } },
+        { "filename": "over", "frame": { "x": 323, "y": 81, "w": 64, "h": 87 } },
         { "filename": "jct", "frame": { "x": 387, "y": 81, "w": 53, "h": 74 } },
         { "filename": "morleyt", "frame": { "x": 440, "y": 81, "w": 45, "h": 35 } },
         { "filename": "bruyere", "frame": { "x": 440, "y": 116, "w": 49, "h": 40 } },
@@ -44,6 +44,8 @@
         { "filename": "pierrick2", "frame": { "x": 254, "y": 441, "w": 254, "h": 407 } },
         { "filename": "raphael", "frame": { "x": 0, "y": 848, "w": 238, "h": 384 } },
         { "filename": "mado", "frame": { "x": 508, "y": 441, "w": 205, "h": 367 } },
-        { "filename": "mado_nurse", "frame": { "x": 508, "y": 441, "w": 205, "h": 367 } }
+        { "filename": "mado_nurse", "frame": { "x": 508, "y": 441, "w": 205, "h": 367 } },
+        { "filename": "lucie", "frame": { "x": 508, "y": 808, "w": 287, "h": 444 } },
+        { "filename": "babette", "frame": { "x": 795, "y": 808, "w": 326, "h": 412 } }
     ]
 }

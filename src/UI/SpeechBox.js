@@ -90,11 +90,11 @@ export default class SpeechBox extends Phaser.GameObjects.Container {
             this.bringToTop(this.nextBtn);
         }
     }
-    playDialogSequence(dialogArray, onComplete=()=>{}) {
+    playDialogSequence(dialogArray, onCompleteGlobal=()=>{}) {
         let index = 0;
         const playNext = () => {
             if (index < dialogArray.length) {
-                const { character, text, options,callback } = dialogArray[index];
+                const { character, text, options,callback,onComplete } = dialogArray[index];
                 index++;
                 if (character!==this.character) {
                     this.setName(character);
@@ -103,10 +103,11 @@ export default class SpeechBox extends Phaser.GameObjects.Container {
                     callback();
                 }
                 this.run(text, options, (selectedOption)=>{
+                    if (onComplete) onComplete();
                     this.handleOption(selectedOption, playNext)
                 });
             } else {
-                onComplete();
+                onCompleteGlobal();
             }
         };
         playNext();

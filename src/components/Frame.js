@@ -6,11 +6,14 @@ export default class Frame {
         this.charsLayer = this.scene.add.container(0, 0);
         this.smooth = true;
         this.askBtn = this.scene.add.panel(300,200,'sm',18).setSize(2,2).setText("?").setVisible(false).onClick(()=>{
+            this.askBtnTouched = true;
+            this.askBtnTw(false);
             this.startDialogue("click");
         });
+        this.askBtnTouched = false;
     }
     hideCharacters(){
-        Object.entries(this.characters).forEach(char => {
+        Object.entries(this.characters).forEach(([key, char]) => {
             this.scene.tweens.add({
                 targets: char,
                 alpha: 0,
@@ -32,7 +35,7 @@ export default class Frame {
         });    
         return this
     }
-    addCharacters(chars) {
+    addCharacters(chars=[]) {
         chars.forEach(({key,x,y}) => {
             const data = charsData[key];
             let ch = this.characters[key];
@@ -65,11 +68,12 @@ export default class Frame {
         const keys = Object.keys(this.scene.loopdata.dialogues).filter(k=> k.startsWith(dk));
         if (keys.length===1) return this.scene.loopdata.dialogues[dk];
         for (const k of keys) {
-            if (this.scene.registry.get('flags').includes(k.slice(dk.length+1))) return this.scene.loopdata.dialogues[k];
+            if (this.scene.registry.get('flags').has(k.slice(dk.length+1))) return this.scene.loopdata.dialogues[k];
         }
         return this.scene.loopdata.dialogues[dk];
     }
     startDialogue(key) {
+        this.currentDialogue = key;
         const data = this.getFlaggedDialogue(key);
         if (!data) return this;
         const newdata = this.prepareDialogue(data);
@@ -79,10 +83,7 @@ export default class Frame {
                     this.showAskButton();
                 }
             }
-            const afterevent = data.find(line=>!!line.onComplete)?.onComplete;
-            if (afterevent) {
-                this.scene.trigger(afterevent);
-            } else if (key?.includes('checkout')) {
+            if (key?.includes('checkout')&&!newdata[newdata.length-1]?.onComplete) {
                 this.scene.trigger('loop_end');
             }
         });
@@ -110,30 +111,60 @@ export default class Frame {
                 }
             };
             if (line.options) {
-                processed.options = line.options.map(option => {
+                processed.options = line.options.map((option,i) => {
+                    const path = `${this.currentDialogue}.${data.indexOf(line)}.${i}`;
+                    if (option.once && this.scene.onceClicked.has(path)) return null;
                     let newOpt = { ...option };
                     if (option.response) {
                         newOpt.response = this.prepareDialogue(option.response);
                     }
-                    if (option.flag || option.event) {
+                    if (option.flag || option.event||option.once) {
                         newOpt.callback = () => {
                             if (option.flag) {
                                 this.scene.registry.get("flags").add(option.flag);
                             }
                             if (option.event) {
                                 this.scene.trigger(option.event);
+                                if (option.once) {
+                                    this.scene.onceClicked.add(path);
+                                }
                             }
                         };
                     }
                     return newOpt;
-                });
+                }).filter(Boolean);
+            }
+            if (line.onComplete) {
+                processed.onComplete = () => this.scene.trigger(line.onComplete);
             }
             return processed;
         });
     }    
     showAskButton(v=true){
         this.askBtn.setVisible(v);
+        this.askBtnTw(v&&!this.askBtnTouched);
     }
+    askBtnTw(v) {
+        if (v) {
+            if (this.askBtnTimer || this.askBtnTouched) return;
+            this.askBtnTimer = this.scene.time.addEvent({
+                delay: 3000,
+                loop: true,
+                callback: () => {
+                    this.scene.tweens.add({
+                        targets: this.askBtn,
+                        y: this.askBtn.y - 10,
+                        duration: 150,
+                        yoyo: true,
+                        ease: 'Quad.easeOut'
+                    });
+                }
+            });
+        } else if (this.askBtnTimer) {
+            this.askBtnTimer.remove();
+            this.askBtnTimer = null;
+        }
+    } 
 }
 
 
@@ -141,6 +172,12 @@ const charsData = {
     felix: {
         x: 135, y: 40,
         faces: 69
+    },
+    lucie: {
+        x: 60, y: 36
+    },
+    babette: {
+        x: 220, y: 68
     },
     pierrick: {
         x: 110, y: 73

@@ -102,15 +102,17 @@ export default class Panel extends Phaser.GameObjects.Container {
         
         this.on("pointerover", () => {
             this.scene.input.setDefaultCursor("pointer");
-            if (!this.static) {
-                this.direction==='y'?this.setPosition(this.x, this.y - 1):this.setPosition(this.x-1, this.y);
+            if (!this.static&&!this._hovered) {
+                this.direction==='y'?this.setPosition(this.x, this.y - 2):this.setPosition(this.x-2, this.y);
             }
+            this._hovered = true;
         });
         this.on("pointerout", () => {
             this.scene.input.setDefaultCursor("default"); 
-            if (!this.static) {
-                this.direction==='y'?this.setPosition(this.x, this.y + 1):this.setPosition(this.x+1, this.y);
+            if (!this.static&&this._hovered) {
+                this.direction==='y'?this.setPosition(this.x, this.y + 2):this.setPosition(this.x+2, this.y);
             }
+            this._hovered = false;
         });
         const f = () => {
             this.scene.sound.play("ui_click");
