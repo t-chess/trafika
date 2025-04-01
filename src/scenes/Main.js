@@ -28,7 +28,9 @@ export default class Main extends Phaser.Scene {
                 purchase_fail: {start:3.78,end:3.879},
                 bag: {start:3.879,end:4.725},
                 coins:{start:4.725,end:5.153},
-                register_close:{start:5.153,end:6.371}
+                register_close:{start:5.153,end:6.371},
+                door_open:{start:6.371,end:7.595},
+                door_close:{start:7.595,end:8.845}
             }
         })
         // this.load.audio("music", "music.mp3");
@@ -37,6 +39,7 @@ export default class Main extends Phaser.Scene {
         this.registry.set({ day: 1, loop: null, flags: new Set(), ashtray:null });
         // this.music = this.sound.add("music",{volume: 0.5});
         // this.music.loop = true;
+        // this.sound.pauseOnBlur = false;
         // this.music.play();
         this.frame = new Frame(this);
         this.initNewspapers();
@@ -50,9 +53,10 @@ export default class Main extends Phaser.Scene {
 
         this.speechbox = new SpeechBox(this, undefined, 4);
         new SoundButton(this);
-        setTimeout(()=>this.startNextLoop('mado'),500);
+        setTimeout(()=>this.startNextLoop('fisherman'),500);
     }
     startNextLoop(key){
+        if (this.registry.get('loop')!=='st1') this.sound.playAudioSprite('audios','door_open');
         this.registry.set('loop',key);
         this.loopdata = data[key];
         this.cashRegister.setOrder(this.loopdata.order,this.loopdata.money);
@@ -78,7 +82,8 @@ export default class Main extends Phaser.Scene {
         if (eventKey === "loop_end") {
             if (this.registry.get('loop')!=='st1') {
                 this.frame.hideCharacters();
-                this.time.delayedCall(3000,()=>this.startNextLoop(this.loopdata.next))
+                this.sound.playAudioSprite('audios','door_close');
+                this.time.delayedCall(3000,()=>this.startNextLoop(this.loopdata.next));
             } else {
                 this.startNextLoop(this.loopdata.next)
             }
@@ -93,16 +98,17 @@ export default class Main extends Phaser.Scene {
         this.shelfCont = this.add.container(0,0);
         this.shelfShow = true;
         let shelf = this.add.image(30, 0, "items", "shelf").setOrigin(0).setInteractive({cursor:"pointer"});
-        shelf.on("pointerdown", () => {
+        const toggleShelf = () => {
             this.tweens.add({
-              targets: this.shelfCont,
-              y: this.shelfShow ? -50 : 0,
-              duration: 300,
-              ease: "Power2"
+                targets: this.shelfCont,
+                y: this.shelfShow ? -50 : 0,
+                duration: 300,
+                ease: "Power2",
+                onComplete:()=>this.shelfShow = !this.shelfShow
             });
-            this.shelfShow = !this.shelfShow;
-          });
-          this.shelfCont.add(shelf);
+        }
+        shelf.on("pointerdown", toggleShelf);
+        this.shelfCont.add(shelf);
 
         const ts = {fontSize:'11px',backgroundColor:'#ffffff',color:"#000000"}
         products.filter(p=>p.cigs===true).map((e,i)=>{
@@ -123,6 +129,7 @@ export default class Main extends Phaser.Scene {
         this.shelfCont.add(this.add.text(400, 63, rest.bruyere, ts));
         this.shelfCont.add(this.initProduct(this.add.image(390, -7, "items", "morleyt").setOrigin(0)));
         this.shelfCont.add(this.add.text(400, 52, rest.morleyt, ts));
+        toggleShelf();
     }
     initCounterItems(){
         this.add.image(111, 408, "items", "ashtray").setOrigin(0);
@@ -158,7 +165,7 @@ export default class Main extends Phaser.Scene {
         })
         el.on("pointerup", () => {
             const desc = products.find(p=>p.key===el.frame.name)?.desc;
-            if (!isDragging&&desc) {
+            if (!isDragging&&this.shelfShow&&desc) {
                 if (desc) {
                     this.speechbox.setOverlay(false);
                     this.speechbox.setName(el.frame.name==='news'?null:"Gail");

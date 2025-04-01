@@ -37,6 +37,26 @@ export default class SpeechBox extends Phaser.GameObjects.Container {
         .setVisible(false);
         this.add(this.nextBtn);
 
+        this.overlay.on('pointerdown', () => {
+            if (this.withOverlay && this.nextBtn.visible&&!this.blinking) {
+                let count = 0;
+                const blink = () => {
+                    this.nextBtn.setVisible(false);
+                    this.scene.time.delayedCall(100, () => {
+                        this.nextBtn.setVisible(true);
+                        count++;
+                        if (count < 3) {
+                            this.scene.time.delayedCall(100, blink);
+                        } else {
+                            this.blinking = false;
+                        }
+                    });
+                };
+                this.blinking = true;
+                blink();
+            }
+        });
+
         for (let i = 0; i < this.maxOptions; i++) {
             let optionPanel = this.scene.add.panel(600, -40, "sm").setSize(5, 2).setText("").setDirection('x');
             optionPanel.setVisible(false);

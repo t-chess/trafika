@@ -173,6 +173,9 @@ const charsData = {
         x: 135, y: 40,
         faces: 69
     },
+    fisherman: {
+        x: 120, y: 39
+    },
     lucie: {
         x: 60, y: 36
     },
@@ -190,5 +193,8 @@ const charsData = {
     },
     mado_nurse: {
         x: 150, y: 113
+    },
+    yves: {
+        x: 160, y: 74
     }
 }

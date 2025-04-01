@@ -23,7 +23,7 @@
                 { "character": "Félix", "text": "Alright, it's simple. Customer asks for something, you grab it, put it in the bag." },
                 { "character": "Félix", "text": "Check the price, set it on the register, push the lever. That's it." },
                 { "character": "Félix", "text": "And when they pay, count it right. People get weird about their change." },
-                { "text": "(Click on an item to see its description. Drag it into the bag to add it to the purchase.)" },
+                { "text": "(Click on the top shelf to hide or show it. Click on an item to see its description. Drag it into the bag to add it to the purchase.)" },
                 { "text": "(To ring up the total, enter the price on the register, then drag the lever down.)" },
                 { "text": "(Count the customer's money, then click on the right banknotes and coins to give them their change.)" },
                 { "character": "Félix", "text": "Let's try it out. Sell me a tin of Morley and three boxes of matches.", "faces": {"felix":"heh"} }
@@ -58,10 +58,10 @@
     "st2": {
         "characters": [{"key":"felix"}],
         "order": ["news", "papirkyX2"],
-        "money":56,
+        "money":55,
         "dialogues": {
             "entry": [
-                { "character": "Félix", "text": "Alright, round two. Paper for smoke, paper for thought. Two of one, one of the other." }
+                { "character": "Félix", "text": "Round two. Paper for smoke, paper for thought. Two of one, one of the other." }
             ],
             "wrong_items": [
                 { "character": "Félix", "text": "Nope. That's not it.", "faces": {"felix":"grr"} }
@@ -96,24 +96,26 @@
         "next": "fisherman" 
     },
     "fisherman":{
-        "order":["jcrX2", "lightersl"],
+        "characters": [{"key":"fisherman"}],
+        "order":["jcr", "lightersl", "news"],
         "money":1000,
         "dialogues":{
             "entry":[
                 { "character": "Fisherman", "text": "Afternoon." },
-                { "character": "Fisherman", "text": "Two packs of JCs. And a lighter, the kind I won't miss if it goes overboard." }
+                { "character": "Fisherman", "text": "One pack of JCs, the news and a lighter, the kind I won't miss if it goes overboard." }
             ],
             "click":[
                 {"character": "Fisherman", "text": "...", "options": [
-                    {"text": "Back from the big metal boats?", "response": [{ "character": "Fisherman", "text": "Yeah. Just stepped off." },{ "character": "Fisherman", "text": "Good pay. Bad sleep." },{ "character": "Fisherman", "text": "...Not sure it was worth what it did to my head." },{ "character": "Fisherman", "text": "Trying not to let it make me all stiff inside. Better to stay soft, like...", "options": [
-                        {"text": "a sad little jellyfish?", "flag":"jellyfish","response": [{ "character": "Fisherman", "text": "Hey, jellyfish don't sink. They just keep floating. I'll take it.", "onComplete":"click" }]},
-                        {"text": "a cool sea glass?", "flag":"seaglass","response": [{ "character": "Fisherman", "text": "Yeah. Been through worse, came out smooth. That's the hope.", "onComplete":"click" }]}
-                    ]}],"once":true},
-                    {"text":"What was it again?", "response": [{ "character": "Fisherman", "text": "Two packs of JC reds. And any cheap, basic lighter."}]},
+                    {"text": "Back from the big metal boats?", "event":"boats", "once":true},
+                    {"text":"What was it again?", "response": [{ "character": "Fisherman", "text": "JC reds. Newspaper. And any cheap, basic lighter."}]},
                     { "text": "..." }
                 ]}
             ],
-            "wrong_items": [{ "character": "Fisherman", "text": "Two packs of JC reds. And any cheap, basic lighter." }],
+            "boats":[{ "character": "Fisherman", "text": "Yeah. Just stepped off." },{ "character": "Fisherman", "text": "Good pay. Bad sleep." },{ "character": "Fisherman", "text": "...Not sure it was worth what it did to my head." },{ "character": "Fisherman", "text": "Trying not to let it make me all stiff inside. I think it's better to stay gentle, like a...", "options": [
+                {"text": "sad little jellyfish?", "flag":"jellyfish","response": [{ "character": "Fisherman", "text": "Hey, jellyfish don't sink. They just keep floating. I'll take it.", "onComplete":"click" }]},
+                {"text": "cool sea glass?", "flag":"seaglass","response": [{ "character": "Fisherman", "text": "Yeah. Been through worse, came out smooth. That's the hope.", "onComplete":"click" }]}
+            ]}],
+            "wrong_items": [{ "character": "Fisherman", "text": "JC reds. Newspaper. And any cheap, basic lighter." }],
             "wrong_price": [{ "character": "Fisherman", "text": "That number's fishy." }],
             "checkout":[
                 { "character": "Fisherman", "text": "Thanks." }
@@ -185,7 +187,7 @@
                 { "character": "Sylvie", "text": "So, how've things been going? Shit, I mean... sorry. You know what I meant.", "flag":"sylvie", "options": [
                     {"text":"Could be worse", "response":[{"character":"Sylvie", "text":"...Right. Alright."},{"character":"Sylvie", "text":"The seals are back already, did you hear? Érica's over the moon, of course."}], "flag":"sylvie_good"},
                     {"text":"Could be better", "response":[{"character":"Sylvie", "text":"...Oh. Well."},{"character":"Sylvie", "text":"Érica said the seals are early this year. She thinks maybe they're confused."}], "flag":"sylvie_bad"}
-                ]},
+                ], "once":true},
                 {"character": "Sylvie", "text":"...", "onComplete":"click_sylvie"}
             ],
             "click_sylvie": [{ "character": "Sylvie", "text": "Just today's paper for me, please."}],
@@ -194,6 +196,7 @@
             "wrong_change":[{ "character": "Sylvie", "text": "Take your time."}],
             "checkout":[{ "character": "Sylvie", "text": "Thanks. Okay then. Take care."}]
         },
+        "break":true,
         "next":"sisters"
     },
     "sisters": {
@@ -243,6 +246,42 @@
         "next":"yves"
     },
     "yves":{
+        "characters":[{"key":"yves"}],
+        "order":["papirky","matches"],
+        "money":27,
+        "dialogues":{
+            "entry":[
+                {"character":"Old Man", "text":"Interesting. You're definitely not Félix, unless he got prettier."},
+                {"character":"Old Man", "text":"He died, lucky bastard? Probably no, just playing hide and seek again. "},
+                {"character":"Old Man", "text":"Anyway, my name is Yves. I fix things. Instruments, mostly."},
+                {"character":"Yves", "text":"And you are?..", "options":[
+                    {"text":"Abigaïl", "response":[{"character":"Yves","text":"Oof, my wife says never trust someone whose name has funny letters in it. But maybe I should give you a chance."}],"flag":"abigail"},
+                    {"text":"Just Gail", "response":[{"character":"Yves","text":"Nice to meet you, Just Gail."}], "flag":"justgail"},
+                    {"text":"Fish, short for Félicia", "response":[{"character":"Yves","text":"Sweet. I can already hear Félix cackling. Or coughing, same sound."}],"flag":"felicia" }
+                ]},
+                {"character":"Yves", "text":"Well, normally I'd be here for pipe tobacco. But I quit."},
+                {"character":"Yves","text": "So nothing for me today... or maybe the news? No. No, I don't want to know what's going on."},
+                {"character":"Yves", "text":"Hmm."},
+                {"character":"Yves", "text":"I'll take those tiny papers you roll cigarettes with. And a box of matches. Just in case."}
+            ],
+            "click":[
+                {"character":"Yves", "text":"...", "options":[
+                    {"text":"So, no more pipe?"},
+                    {"text":"Whole town talks about the organ", "event":"organ", "once":false},
+                    {"text":"Why do you have a mug with you?"},
+                    {"text":"..."}
+                ]}
+            ],
+            "organ":[{"character":"Yves", "text":"Of course they do. It would've been too boring to just say it broke. They've got their little theories. And what's you favourite one?", "options":[
+                {"text":"Time got it?", "response":[{"character":"Yves","text":""}]},
+                {"text":"Spiritual burnout?", "response":[{"character":"Yves","text":"That's Isaac's theory. Says it cracked from carrying too many prayers."}]},
+                {"text":"It wasn't an accident?", "response":[{"character":"Yves","text":""}]},
+                {"text":"Prefer to stay out of rumors", "response":[{"character":"Yves","text":""}]}
+            ]}],
+            "checkout":[
+                {"character":"Yves","text":""}
+            ]
+        },
         "next":"mado"
     },
     "mado":{
@@ -250,18 +289,24 @@
         "order":["morleyb"],
         "money":200,
         "dialogues":{
-            "entry":[{ "character": "???", "text": "...You're not Félix." },{"character":"???","text":"Nevermind. Hi. Menthol Morleys, please."}],
-            "click":[{"character":"???","text":"...can you be faster, please?", "options":[
-                {"text":"Sure. No need to show your teeth","response":[{"character":"???","text":"What? Why did you say that?"},{"character":"???","text":"...Forget it. Sorry. Long shift ahead.", "onComplete":"click","flag":"teeth"}]},
-                {"text":"Hm? Menthol what?", "response":[{"character":"???","text":"Menthol Morleys. I did say it. Clearly.", "onComplete":"click"}]},
+            "entry":[{ "character": "Beret Girl", "text": "...You're not Félix." },{"character":"Beret Girl","text":"Nevermind. Hi. Menthol Morleys, please."}],
+            "click":[{"character":"Beret Girl","text":"...can you be faster, please?", "options":[
+                {"text":"Sure. No need to show your teeth","response":[{"character":"Beret Girl","text":"What? Why did you say that?"},{"character":"Beret Girl","text":"...Forget it. Sorry. Long shift ahead.", "onComplete":"click","flag":"teeth"}]},
+                {"text":"Hm? Menthol what?", "response":[{"character":"Beret Girl","text":"Menthol Morleys. I did say it. Clearly.", "onComplete":"click"}]},
                 {"text":"..."}
             ]}],
-            "wrong_items":[{"character":"???","text":"I asked for Menthol Morleys. Not... whatever that is."}],
-            "wrong_price":[{"character":"???","text":"It can't be that hard."}],
-            "wrong_change":[{"character":"???","text":"That's wrong."}],
-            "checkout":[{"character":"???","text":"Thanks. Also, could I..."},{"character":"???","text":"...No. Doesn't matter. Forget it."}],
-            "teeth_checkout":[{"character":"???","text":"Thanks. Goodbye."},{"character":"???","text":"That was a weird thing to say, by the way."}]
+            "wrong_items":[{"character":"Beret Girl","text":"I asked for Menthol Morleys. Not... whatever that is."}],
+            "wrong_price":[{"character":"Beret Girl","text":"It can't be that hard."}],
+            "wrong_change":[{"character":"Beret Girl","text":"That's wrong."}],
+            "checkout":[{"character":"Beret Girl","text":"Thanks. Also, could I..."},{"character":"Beret Girl","text":"...No. Doesn't matter. Forget it."}],
+            "teeth_checkout":[{"character":"Beret Girl","text":"Thanks. Goodbye."},{"character":"Beret Girl","text":"That was a weird thing to say, by the way."}]
         },
         "next":"felix"
+    },
+    "felix":{
+        "characters":[{"key":"felix"}],
+        "dialogues":{
+            "entry":[{"text":""}]
+        }
     }
 }
