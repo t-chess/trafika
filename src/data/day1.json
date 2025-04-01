@@ -93,6 +93,7 @@
                 { "character": "Félix", "text": "That's it. I vanish now. Later, kiddo." }
             ]
         },
+        "break":true,
         "next": "fisherman" 
     },
     "fisherman":{
@@ -173,15 +174,17 @@
         "next": "sylvie" 
     },
     "sylvie":{
-        "order":["news"],
+        "characters":[{"key":"sylvie"}],
+        "order":["morleyr"],
         "money":500,
         "dialogues":{
             "entry":[
-                {"character":"Sylvie", "text":"Oh, Gail? You work here now?","options":[{ "text": "Just for today","flag":"today" },{ "text": "I don't know. Maybe", "flag":"maybe" }]},
-                {"character":"Sylvie", "text":"Okay..."},
+                {"character":"Sylvie", "text":"Oh, Gail?"},
+                {"character":"Sylvie", "text":"...You work here now?","options":[{ "text": "Just for today","flag":"today" },{ "text": "I don't know. Maybe", "flag":"maybe" }]},
+                {"character":"Sylvie", "text":"Oh, okay..."},
                 {"character":"Sylvie", "text":"Sorry about your mom."},
                 {"character":"Sylvie", "text":"..."},
-                {"character":"Sylvie", "text":"Yeah. Just the paper, please."}
+                {"character":"Sylvie", "text":"Yeah... Just Morleys, please."}
             ],
             "click": [
                 { "character": "Sylvie", "text": "So, how've things been going? Shit, I mean... sorry. You know what I meant.", "flag":"sylvie", "options": [
@@ -190,11 +193,11 @@
                 ], "once":true},
                 {"character": "Sylvie", "text":"...", "onComplete":"click_sylvie"}
             ],
-            "click_sylvie": [{ "character": "Sylvie", "text": "Just today's paper for me, please."}],
-            "wrong_items":[{ "character": "Sylvie", "text": "Just today's paper, please."}],
+            "click_sylvie": [{ "character": "Sylvie", "text": "Just regular Morleys for me, please."}],
+            "wrong_items":[{ "character": "Sylvie", "text": "Just red Morleys, please."}],
             "wrong_price":[{ "character": "Sylvie", "text": "Take your time."}],
             "wrong_change":[{ "character": "Sylvie", "text": "Take your time."}],
-            "checkout":[{ "character": "Sylvie", "text": "Thanks. Okay then. Take care."}]
+            "checkout":[{ "character": "Sylvie", "text": "Thank you, Gail. Okay then. Take care."}]
         },
         "break":true,
         "next":"sisters"

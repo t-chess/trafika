@@ -202,7 +202,7 @@ export default class CashRegister {
             this.resetSuplik();
             this.order.length = 0;
             this.scene.bag.empty();
-            this.scene.time.delayedCall(100,()=>{
+            this.scene.time.delayedCall(500,()=>{
                 this.scene.trigger("checkout");
             })
         }

@@ -8,6 +8,9 @@ const names = [
     {key:"seal",text:"Gray seal"}
 ]
 
+// trigger inner monologues / additional phrases based on chosen theme
+// free theme to trigger events randomly?
+
 export default class Ashtray extends Phaser.Scene {
     constructor() {
       super("Ashtray");

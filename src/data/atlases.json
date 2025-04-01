@@ -47,6 +47,7 @@
         { "filename": "mado", "frame": { "x": 508, "y": 441, "w": 205, "h": 367 } },
         { "filename": "mado_nurse", "frame": { "x": 508, "y": 441, "w": 205, "h": 367 } },
         { "filename": "lucie", "frame": { "x": 508, "y": 808, "w": 287, "h": 444 } },
-        { "filename": "babette", "frame": { "x": 795, "y": 808, "w": 326, "h": 412 } }
+        { "filename": "babette", "frame": { "x": 795, "y": 808, "w": 326, "h": 412 } },
+        { "filename": "sylvie", "frame": { "x": 850, "y": 0, "w": 234, "h": 378 } }
     ]
 }

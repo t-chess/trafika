@@ -52,18 +52,21 @@ export default class Main extends Phaser.Scene {
         this.bag = new Bag(this);
 
         this.speechbox = new SpeechBox(this, undefined, 4);
+        this.speechbox.setOverlay(true);
         new SoundButton(this);
-        setTimeout(()=>this.startNextLoop('fisherman'),500);
+        setTimeout(()=>this.startNextLoop('mado'),500);
     }
     startNextLoop(key){
-        if (this.registry.get('loop')!=='st1') this.sound.playAudioSprite('audios','door_open');
+        if (key!=="st1"&&key!=="st2") this.sound.playAudioSprite('audios','door_open');
         this.registry.set('loop',key);
         this.loopdata = data[key];
-        this.cashRegister.setOrder(this.loopdata.order,this.loopdata.money);
-        this.bag.setVisible(true);
+        if (this.loopdata.order) {
+            this.cashRegister.setOrder(this.loopdata.order,this.loopdata.money);
+            this.bag.setVisible(true);
+        }
         this.frame.addCharacters(this.loopdata.characters);
         this.onceClicked = new Set();
-        this.trigger("entry");
+        this.time.delayedCall(1000, ()=>{this.trigger("entry")});
     }
     
     trigger(eventKey) {
@@ -83,7 +86,7 @@ export default class Main extends Phaser.Scene {
             if (this.registry.get('loop')!=='st1') {
                 this.frame.hideCharacters();
                 this.sound.playAudioSprite('audios','door_close');
-                this.time.delayedCall(3000,()=>this.startNextLoop(this.loopdata.next));
+                this.time.delayedCall(3000,()=>this.loopdata.break ? this.playBreak() : this.startNextLoop(this.loopdata.next));
             } else {
                 this.startNextLoop(this.loopdata.next)
             }
@@ -210,7 +213,7 @@ export default class Main extends Phaser.Scene {
         });
         return el
     }
-    readNews() {
+    readNews(fromBreak=false) {
         const categories = Object.keys(data.news);
         const previous = [];
         const openCategoryList = () => {
@@ -221,7 +224,9 @@ export default class Main extends Phaser.Scene {
                     openArticleList(cat);
                 }
             }));
-            options.push({ text: "Back", callback: () => this.speechbox.setOverlay(true) });
+            options.push({ text: fromBreak?"Finish reading":"...", callback: () => {
+                fromBreak ? this.endBreak() : this.speechbox.setOverlay(true);
+            } });
             this.speechbox.run("...", options);
         };
         const openArticleList = (category) => {
@@ -245,5 +250,18 @@ export default class Main extends Phaser.Scene {
         };
 
         openCategoryList();
-    }    
+    }
+    playBreak(){
+        this.speechbox.setOverlay(true)
+        if (this.registry.get('loop')==='st2') {
+            this.speechbox.setName(null);
+            this.speechbox.run("Wanna read news while waiting for customers?",[
+                {text:"Take a look", callback: ()=>this.readNews(true)},
+                {text:"Already read", callback: ()=>this.endBreak()}
+            ]);
+        }
+    }
+    endBreak(){
+        this.time.delayedCall(1500, () => { this.startNextLoop(this.loopdata.next) } )
+    }
 }

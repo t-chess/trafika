@@ -196,5 +196,8 @@ const charsData = {
     },
     yves: {
         x: 160, y: 74
+    },
+    sylvie: {
+        x: 140, y: 90
     }
 }
